@@ -21,12 +21,12 @@ namespace JETech.JEDayCare.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly SicDbContext _context;
+        private readonly JEDayCareDbContext _context;
         private readonly IUserService _userManager;
         private readonly IUserConverterHelper _userConverterHelper;
 
         public AccountController(
-            SicDbContext context,
+            JEDayCareDbContext context,
             IUserService userManager,
             IUserConverterHelper userConverterHelper)
         {

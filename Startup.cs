@@ -34,7 +34,7 @@ namespace JETech_SIC_Web
         {
             services.AddRazorPages().AddRazorRuntimeCompilation();
 
-            services.AddDbContext<SicDbContext>(config =>
+            services.AddDbContext<JEDayCareDbContext>(config =>
             {
                 config.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
@@ -47,7 +47,7 @@ namespace JETech_SIC_Web
                 config.Password.RequireLowercase = false;
                 config.Password.RequireNonAlphanumeric = false;
                 config.Password.RequireUppercase = false;
-            }).AddEntityFrameworkStores<SicDbContext>();
+            }).AddEntityFrameworkStores<JEDayCareDbContext>();
 
             // Add framework services.
             services

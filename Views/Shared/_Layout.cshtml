@@ -34,8 +34,8 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 @*<div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>*@
+                <i class="fas fa-laugh-wink"></i>
+            </div>*@
                 <div class="sidebar-brand-text mx-3">JEDayCare</div>
             </a>
 
@@ -46,7 +46,7 @@
             <li class="nav-item active">
                 <a class="nav-link" asp-action="Index" asp-controller="Home">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Inicio</span>
+                    <span>Home</span>
                 </a>
             </li>
 
@@ -55,14 +55,14 @@
 
             <!-- Heading -->
             @*<div class="sidebar-heading">
-                    Administración
-                </div>*@
+            Administración
+        </div>*@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAdm" aria-expanded="true" aria-controls="collapseAdm">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Administración</span>
+                    <span>Administration</span>
                 </a>
                 <div id="collapseAdm" class="collapse" aria-labelledby="collapseAdm" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
@@ -80,29 +80,47 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCli" aria-expanded="true" aria-controls="collapseCli">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Clients</span>
+                    <span>Childs</span>
                 </a>
                 <div id="collapseCli" class="collapse" aria-labelledby="collapseCli" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Basic</h6>
-                        <a asp-action="Index" asp-controller="ClientMant" class="collapse-item">Clients</a>
+                        <a asp-action="Index" asp-controller="ClientMant" class="collapse-item">Childs</a>
                         <a asp-action="Index" asp-controller="ExamplesDevExtreme" class="collapse-item">Examples DevExtreme</a>
-                    </div>               
+                    </div>
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Reports</h6>
-                        <a class="collapse-item" href="buttons.html">Reporte Clientes</a>
+                        <a class="collapse-item" href="buttons.html">Childs Report</a>
                     </div>
                 </div>
             </li>
+            <!--Bills Division -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCli" aria-expanded="true" aria-controls="collapseCli">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Bills</span>
+                </a>
+                <div id="collapseCli" class="collapse" aria-labelledby="collapseCli" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Basic</h6>
+                        <a asp-action="Index" asp-controller="ClientMant" class="collapse-item">Bills</a>
+                    </div>
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Reports</h6>
+                        <a class="collapse-item" href="buttons.html">Bills Report</a>
+                    </div>
+                </div>
+            </li>
+            <!--Security Division -->
             <hr class="sidebar-divider d-none d-md-block" />
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSeg" aria-expanded="true" aria-controls="collapseSeg">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Seguriad</span>
+                    <span>Security</span>
                 </a>
                 <div id="collapseSeg" class="collapse" aria-labelledby="collapseSeg" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="buttons.html">Usuario</a>
+                        <a class="collapse-item" href="buttons.html">Users</a>
                     </div>
                 </div>
             </li>
