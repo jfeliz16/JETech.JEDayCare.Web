@@ -1,0 +1,9 @@
+
+***Build***
+docker build -t JETech.JEDayCare.web .
+
+***Deploy***
+docker run -d -p 8080:80 --name sicweb JETech.JEDayCare.web
+
+***Clean dungles inamge***
+docker rmi $(docker images -f "dangling=true" -q)

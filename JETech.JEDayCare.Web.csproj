@@ -1,0 +1,68 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>d7c7ca23-63a4-49ce-8333-d9634c653d92</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Admin Template Blue\**" />
+    <Compile Remove="Admin Template Lite\**" />
+    <Compile Remove="ample-admin-lite-master\**" />
+    <Compile Remove="Data\**" />
+    <Compile Remove="startbootstrap-sb-admin-2-gh-pages\**" />
+    <Content Remove="Admin Template Blue\**" />
+    <Content Remove="Admin Template Lite\**" />
+    <Content Remove="ample-admin-lite-master\**" />
+    <Content Remove="Data\**" />
+    <Content Remove="startbootstrap-sb-admin-2-gh-pages\**" />
+    <EmbeddedResource Remove="Admin Template Blue\**" />
+    <EmbeddedResource Remove="Admin Template Lite\**" />
+    <EmbeddedResource Remove="ample-admin-lite-master\**" />
+    <EmbeddedResource Remove="Data\**" />
+    <EmbeddedResource Remove="startbootstrap-sb-admin-2-gh-pages\**" />
+    <None Remove="Admin Template Blue\**" />
+    <None Remove="Admin Template Lite\**" />
+    <None Remove="ample-admin-lite-master\**" />
+    <None Remove="Data\**" />
+    <None Remove="startbootstrap-sb-admin-2-gh-pages\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="BuildBundlerMinifier" Version="2.9.406" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Views\Shared\_LayoutOLd.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\User\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="JETech.DevExtremeCore">
+      <HintPath>..\..\DevExtremeCore\JETech.DevExtremeCore\bin\Debug\netcoreapp3.1\JETech.DevExtremeCore.dll</HintPath>
+    </Reference>
+    <Reference Include="JETech.JEDayCare.Core">
+      <HintPath>..\JETech.JEDayCare.Core\bin\Debug\netcoreapp3.1\JETech.JEDayCare.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="JETech.NetCoreWeb">
+      <HintPath>..\..\NetCoreWeb\JETech.NetCoreWeb\bin\Debug\netcoreapp3.1\JETech.NetCoreWeb.dll</HintPath>
+    </Reference>
+    <PackageReference Include="DevExtreme.AspNet.Core" Version="20.2.3" />
+    <PackageReference Include="DevExtreme.AspNet.Data" Version="2.7.1" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties DismissedDevExtremeVersion="" TemplateFeatures="NETCORE" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

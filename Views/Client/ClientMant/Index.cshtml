@@ -1,0 +1,180 @@
+﻿@model IEnumerable<JETech.JEDayCare.Web.Models.Client.ClientViewModel>
+@using JETech.JEDayCare.Web.Models.Client;
+@{
+    ViewData["Title"] = "Clients";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <!-- Area Chart -->
+    <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                @*<h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>*@
+                <h5 class="title-form">@(ViewData["Title"])</h5>
+                <div class="header-form">
+                    <div class="row justify-content-end">
+                        <div class="header-form-item">
+                            @(Html.DevExtreme().Button()
+                            .Text("New")
+                            .Icon("plus")
+                            .Type(ButtonType.Default)
+                            .OnClick(@<text>
+                                        function(){ window.location = "@Url.Action("Create", "ClientMant")"; }
+                                     </text>)
+                            )
+                        </div>
+                        <div class="header-form-item">
+                            @(Html.DevExtreme().Button()
+                            .Text("Refresh")
+                            .Icon("refresh")
+                            .Type(ButtonType.Normal)
+                            .OnClick("onRefreshGrid")
+                            )
+                        </div>
+                        <div class="header-form-item">
+                            @(Html.DevExtreme().Button()
+                            .Text("Print")
+                            .Icon("print")
+                            .Type(ButtonType.Normal)
+                            .OnClick(@<text>
+                                        function(){ window.location = "@Url.Action("Create", "ClientMant")"; }
+                                     </text>)
+                            )
+                        </div>
+                        @*<div class="header-form-item">
+                                @(Html.DevExtreme().Button()
+                                .Icon("more")
+                                .Type(ButtonType.Normal)
+                                .OnClick(@<text>
+                                            function(){ window.location = "@Url.Action("Create", "Client")"; }
+                                         </text>)
+                                )
+                            </div>*@
+                        <div class="header-form-item">
+                            @(Html.DevExtreme().Menu()
+                                .ID("menu")
+                                .DataSource(d => d.Mvc().LoadAction("GetActions"))
+                                .HideSubmenuOnMouseLeave(false)
+                                .OnItemClick("onActionClick")
+                                .CssClass("jet-menu-button")
+                                )
+                            <div id="product-details" class="hidden">
+                                <div class="text"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                @(Html.DevExtreme().DataGrid<ClientViewModel>()
+                    .ID("gridClients")
+                    .ShowBorders(true)
+                    .RemoteOperations(c => c.GroupPaging(true)) //Enabled pagination
+                    .FilterRow(filter => filter
+                        .Visible(true)
+                        .ApplyFilter(GridApplyFilterMode.Auto)                        
+                        .ShowOperationChooser(false))
+                    .DataSource( new JS("store"))
+                    //.DataSource(d => d.StaticJson().Url("~/api/ClientMant/").Key("Id"))
+                    .FocusedRowEnabled(true)
+                    .Paging(paging =>
+                        paging.PageSize(10))
+                    .Pager(pager =>
+                    {
+                        pager.ShowPageSizeSelector(true);
+                        pager.AllowedPageSizes(new[] { 5, 10, 20 });
+                        pager.ShowInfo(true);
+                    })
+                    .Columns(columns => {
+                        columns.AddFor(c => c.Id);
+                        columns.AddFor(c => c.FirstName);
+                        columns.AddFor(c => c.LastName);
+                        columns.AddFor(c => c.CellPhone);
+                        columns.AddFor(c => c.StatusName);
+                    })
+                )
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function getMenuInstance() {
+        console.log("intancing menu");
+        return $("#menu").dxMenu("instance");
+    };
+
+    function onActionClick(data) {
+        var item = data.itemData;
+
+        if (item.Name) {
+            $("#product-details").removeClass("hidden");
+            $("#product-details > .text").text(item.Name);
+        }
+    };
+
+    function onRefreshGrid() {              
+        var dataGrid = $("#gridClients").dxDataGrid("instance");
+        dataGrid.refresh()
+    };
+
+    function isNotEmpty(value) {
+        return value !== undefined && value !== null && value !== "";
+    }
+
+    var store = new DevExpress.data.CustomStore({
+        key: "Id",
+        //remoteOperations: { groupPaging: true },
+        load: function (loadOptions) {
+            var deferred = $.Deferred(),
+                args = {};
+           
+            [
+                "skip",
+                "take",
+                "requireTotalCount",
+                "requireGroupCount",
+                "sort",
+                "filter",
+                "totalSummary",
+                "group",
+                "groupSummary"
+            ].forEach(function (i) {
+                if (i in loadOptions && isNotEmpty(loadOptions[i]))
+                    args[i] = JSON.stringify(loadOptions[i]);
+            });
+
+            //alert(JSON.stringify(args));
+           
+            var argsData = {
+                "CondictionString": args.filter,
+                "PageArgs": {
+                    "Skip": parseInt(args.skip),                    
+                    "Size": parseInt(args.take)
+                }
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: "https://localhost:44393/Api/ClientMant/",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",           
+                data: JSON.stringify(argsData),
+                success: function (result) {                    
+                    //deferred.resolve(result.Data);                    
+                    deferred.resolve(result.Data, {
+                        totalCount: result.TotalCount
+                    });
+                },
+                error: function (error) {
+                   
+                    deferred.reject("Data Loading Error");
+                },
+                timeout: 5000
+            });
+
+            return deferred.promise();
+        }
+    });
+</script>
