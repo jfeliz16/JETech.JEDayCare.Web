@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JETech.JEDayCare.Core", "..
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JETech.JEDayCare.UnitTest", "..\JETech.JEDayCare.UnitTest\JETech.JEDayCare.UnitTest.csproj", "{167D2B51-51D6-4F7B-A35C-2839458C1663}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JETech.NetCoreWeb", "..\..\NetCoreWeb\JETech.NetCoreWeb\JETech.NetCoreWeb.csproj", "{145DCAF2-A2C4-434D-AEC3-D5027918C460}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JETech.DevExtremeCore", "..\..\DevExtremeCore\JETech.DevExtremeCore\JETech.DevExtremeCore.csproj", "{63A1B255-F143-4605-8A1D-DAB99DB0DE0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{167D2B51-51D6-4F7B-A35C-2839458C1663}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{167D2B51-51D6-4F7B-A35C-2839458C1663}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{167D2B51-51D6-4F7B-A35C-2839458C1663}.Release|Any CPU.Build.0 = Release|Any CPU
+		{145DCAF2-A2C4-434D-AEC3-D5027918C460}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{145DCAF2-A2C4-434D-AEC3-D5027918C460}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{145DCAF2-A2C4-434D-AEC3-D5027918C460}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{145DCAF2-A2C4-434D-AEC3-D5027918C460}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63A1B255-F143-4605-8A1D-DAB99DB0DE0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63A1B255-F143-4605-8A1D-DAB99DB0DE0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63A1B255-F143-4605-8A1D-DAB99DB0DE0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63A1B255-F143-4605-8A1D-DAB99DB0DE0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
