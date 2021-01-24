@@ -59,3 +59,9 @@ div.card-header {
     color: #000;
     border-color: #ddd;
 }
+.form-container {
+    padding:10px;
+}
+#div-final-action-form {
+    margin-top:5px;
+}
