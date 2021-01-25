@@ -8,34 +8,63 @@
         <h5 class="title-form">@(ViewData["Title"])</h5>
     </div>
     <div class="widget-container">
-        @*<div class="form-container">
+        <div class="form-container">
             @(Html.DevExtreme().Form<AddClientViewModel>()
-                            .ID("frmChild")
-                            .ColCount(2)
-                            .MinColWidth(300)
-                            .LabelLocation(FormLabelLocation.Top)
-                            .ShowColonAfterLabel(true)
-                            .Items( items =>
-                            {
-                                items.AddSimpleFor(m => m.FirstName);
-                                items.AddSimpleFor(m => m.LastName);
-                            })
-                            .FormData(Model)
-                        )
+                .ID("frmChild")
+                .ColCount(2)
+                .MinColWidth(300)
+                .LabelLocation(FormLabelLocation.Top)
+                .ShowColonAfterLabel(true)   
+                .Items(items =>
+                {
+                    items.AddGroup()                       
+                        .Items(items =>
+                        {
+                            items.AddSimpleFor(m => m.FirstName);
+                            items.AddSimpleFor(m => m.BirthDate);              
+                        });
+                    items.AddGroup()                        
+                        .Items(items =>
+                        {
+                            items.AddSimpleFor(m => m.LastName);                      
+                        });
+                })
+                .Items( items => {
+                    items.AddGroup()
+                        .Caption("Tutor Information")
+                        .Items(items => {
+                            items.AddSimpleFor(m => m.FirstName);
+                            items.AddSimpleFor(m => m.LastName);
+                            items.AddSimpleFor(m => m.CellPhone);
+                            items.AddSimpleFor(m => m.HomePhone);
+                            items.AddSimpleFor(m => m.Email);
+                        });
+                    items.AddGroup()
+                        .Caption("Address")
+                        .Items(items =>
+                        {
+                            items.AddSimpleFor(m => m.Address);
+                            items.AddSimpleFor(m => m.Contry);
+                            items.AddSimpleFor(m => m.State);
+                            items.AddSimpleFor(m => m.City);
+                            items.AddSimpleFor(m => m.ZipCode);
+                        });
+                })
+                .FormData(Model)
+            )
             <div id="div-final-action-form" class="row justify-content-md-center">
                 <div class="form-group col-lg-2 col-md-2 col-sm-12">
                     @(Html.DevExtreme().Button()
+                            .Type(ButtonType.Success)
                             .Text("Save")
-                            .Icon("save")
-                         )
+                            .Icon("save"))
                 </div>
                 <div class="form-group col-lg-2 col-md-2 col-sm-12">
-                    @(Html.DevExtreme().Button()
-                            .Text("Cancel")
-                         )
+                    @(Html.DevExtreme().Button()                        
+                        .Text("Cancel"))
                 </div>
             </div>
-        </div>*@
+        </div>
     </div>
 </div>
 
