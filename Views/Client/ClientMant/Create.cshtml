@@ -9,61 +9,77 @@
     </div>
     <div class="widget-container">
         <div class="form-container">
-            @(Html.DevExtreme().Form<AddClientViewModel>()
-                .ID("frmChild")
-                .ColCount(2)
-                .MinColWidth(300)
-                .LabelLocation(FormLabelLocation.Top)
-                .ShowColonAfterLabel(true)   
-                .Items(items =>
-                {
-                    items.AddGroup()                       
-                        .Items(items =>
-                        {
-                            items.AddSimpleFor(m => m.FirstName);
-                            items.AddSimpleFor(m => m.BirthDate);              
-                        });
-                    items.AddGroup()                        
-                        .Items(items =>
-                        {
-                            items.AddSimpleFor(m => m.LastName);                      
-                        });
-                })
-                .Items( items => {
-                    items.AddGroup()
-                        .Caption("Tutor Information")
-                        .Items(items => {
-                            items.AddSimpleFor(m => m.FirstName);
-                            items.AddSimpleFor(m => m.LastName);
-                            items.AddSimpleFor(m => m.CellPhone);
-                            items.AddSimpleFor(m => m.HomePhone);
-                            items.AddSimpleFor(m => m.Email);
-                        });
-                    items.AddGroup()
-                        .Caption("Address")
-                        .Items(items =>
-                        {
-                            items.AddSimpleFor(m => m.Address);
-                            items.AddSimpleFor(m => m.Contry);
-                            items.AddSimpleFor(m => m.State);
-                            items.AddSimpleFor(m => m.City);
-                            items.AddSimpleFor(m => m.ZipCode);
-                        });
-                })
-                .FormData(Model)
+            <form id="clientForm" asp-action="Create" asp-controller="ClientMant" method="post">
+                @(Html.DevExtreme().Form<AddClientViewModel>()
+.ID("clientFormDev")
+.ColCount(2)
+.MinColWidth(300)
+.LabelLocation(FormLabelLocation.Top)
+.ShowColonAfterLabel(true)
+.Items(items =>
+{
+    items.AddGroup()
+        .Items(items =>
+        {
+            items.AddSimpleFor(m => m.FirstName);
+        //items.AddSimpleFor(m => m.BirthDate);
+    });
+    items.AddGroup()
+        .Items(items =>
+        {
+            items.AddSimpleFor(m => m.LastName);
+        });
+})
+//.Items( items => {
+//    items.AddGroup()
+//        .Caption("Tutor Information")
+//        .Items(items => {
+//            items.AddSimpleFor(m => m.FirstName);
+//            items.AddSimpleFor(m => m.LastName);
+//            items.AddSimpleFor(m => m.CellPhone);
+//            items.AddSimpleFor(m => m.HomePhone);
+//            items.AddSimpleFor(m => m.Email);
+//        });
+//    items.AddGroup()
+//        .Caption("Address")
+//        .Items(items =>
+//        {
+//            items.AddSimpleFor(m => m.Address);
+//            items.AddSimpleFor(m => m.Contry);
+//            items.AddSimpleFor(m => m.State);
+//            items.AddSimpleFor(m => m.City);
+//            items.AddSimpleFor(m => m.ZipCode);
+//        });
+//})
+.FormData(Model)
             )
-            <div id="div-final-action-form" class="row justify-content-md-center">
-                <div class="form-group col-lg-2 col-md-2 col-sm-12">
-                    @(Html.DevExtreme().Button()
-                            .Type(ButtonType.Success)
-                            .Text("Save")
-                            .Icon("save"))
+                <div id="div-final-action-form" class="row justify-content-md-center">
+                    <div class="form-group col-lg-2 col-md-2 col-sm-12">
+                        @(Html.DevExtreme().Button()
+.Type(ButtonType.Success)
+.OnClick("onClickSave")
+.Text("Save")
+.Icon("save"))
+                    </div>
+                    <div class="form-group col-lg-2 col-md-2 col-sm-12">
+                        @(Html.DevExtreme().Button()
+.Text("Cancel"))
+                    </div>
                 </div>
-                <div class="form-group col-lg-2 col-md-2 col-sm-12">
-                    @(Html.DevExtreme().Button()                        
-                        .Text("Cancel"))
+                <div class="row justify-content-center">
+                    <div class="form-group col-lg-2 col-md-2 col-sm-12">
+                        <input type="submit" value="Accept" class="btn btn-success" />
+                    </div>
                 </div>
-            </div>
+            </form>
+            @*<div class="row justify-content-md-center">
+                    <div class="form-group col-lg-2 col-md-2 col-sm-12">
+                        <input type="submit" value="Accept" class="btn btn-success btn-user btn-block" />
+                    </div>
+                    <div class="form-group col-lg-2 col-md-2 col-sm-12">
+                        <a asp-action="Index" class="btn btn-secondary btn-user btn-block">Cancel</a>
+                    </div>
+                </div>*@
         </div>
     </div>
 </div>
@@ -73,104 +89,135 @@
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 
+<script>
+
+
+
+    function onClickSave() {
+        alert("Do you want to save the register?");      
+
+        var model = $('#clientForm').serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: "https://localhost:44393/ClientMant/Create/",
+            dataType: 'html',
+            data: model,
+            // contentType: 'aplication/json; charset=utf-8',
+            success: function (result) {   
+                var result = JSON.parse(result);
+                var success = result.success;
+              
+                if (!success) {                
+                    $("#clientFormDev").dxForm('instance').validate();
+                } else {
+                    alert("Operation succesful.");
+                }
+            },
+            error: function (error) {
+                alert(Json.error);
+            }
+        });
+    }
+</script>
 
 @*
-<div>
-    <h3>New Child</h3>
+    <div>
+        <h3>New Child</h3>
 
-    <form asp-action="Create">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <div class="row">
-            <div class="form-group col-lg-6 col-md-6 col-sm-12">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control form-control-sm" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+            <div class="row">
+                <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <input asp-for="FirstName" class="form-control form-control-sm" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control form-control-sm" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group col-lg-6 col-md-6 col-sm-12">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control form-control-sm" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+            <div class="row">
+                <div class="form-group  col-lg-6 col-md-6 col-sm-12">
+                    <label asp-for="TypeIdentityId" class="control-label"></label>
+                    <select asp-for="TypeIdentityId" class="form-control form-control-sm">
+                        <option>Choose...</option>
+                        <option>Id</option>
+                        <option>Passport</option>
+                    </select>
+                    <span asp-validation-for="TypeIdentityId" class="text-danger"></span>
+                </div>
+                <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                    <label asp-for="IdentityId" class="control-label"></label>
+                    <input asp-for="IdentityId" class="form-control form-control-sm" />
+                    <span asp-validation-for="IdentityId" class="text-danger"></span>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group  col-lg-6 col-md-6 col-sm-12">
-                <label asp-for="TypeIdentityId" class="control-label"></label>
-                <select asp-for="TypeIdentityId" class="form-control form-control-sm">
-                    <option>Choose...</option>
-                    <option>Id</option>
-                    <option>Passport</option>
-                </select>
-                <span asp-validation-for="TypeIdentityId" class="text-danger"></span>
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-4 col-sm-12">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control form-control-sm" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group col-lg-6 col-md-6 col-sm-12">
-                <label asp-for="IdentityId" class="control-label"></label>
-                <input asp-for="IdentityId" class="form-control form-control-sm" />
-                <span asp-validation-for="IdentityId" class="text-danger"></span>
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-4 col-sm-12">
+                    <label asp-for="HomePhone" class="control-label"></label>
+                    <input asp-for="HomePhone" class="form-control form-control-sm" />
+                    <span asp-validation-for="HomePhone" class="text-danger"></span>
+                </div>
+                <div class="form-group col-lg-4 col-md-4 col-sm-12">
+                    <label asp-for="CellPhome" class="control-label"></label>
+                    <input asp-for="CellPhome" class="form-control form-control-sm" />
+                    <span asp-validation-for="CellPhome" class="text-danger"></span>
+                </div>
+                <div class="form-group col-lg-4 col-md-4 col-sm-12">
+                    <label asp-for="Fax" class="control-label"></label>
+                    <input asp-for="Fax" class="form-control form-control-sm" />
+                    <span asp-validation-for="Fax" class="text-danger"></span>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-lg-4 col-md-4 col-sm-12">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control form-control-sm" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+            <div class="row">
+                <div class="form-group col-lg-12 col-md-12 col-sm-12">
+                    <label asp-for="Address" class="control-label"></label>
+                    <input asp-for="Address" class="form-control form-control-sm" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-lg-4 col-md-4 col-sm-12">
-                <label asp-for="HomePhone" class="control-label"></label>
-                <input asp-for="HomePhone" class="form-control form-control-sm" />
-                <span asp-validation-for="HomePhone" class="text-danger"></span>
+            <div class="row">
+                <div class="form-group  col-lg-4 col-md-4 col-sm-12">
+                    <label asp-for="City" class="control-label"></label>
+                    <input asp-for="City" class="form-control form-control-sm" />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+                <div class="form-group col-lg-4 col-md-4 col-sm-12">
+                    <label asp-for="Contry" class="control-label"></label>
+                    <select asp-for="Contry" class="form-control form-control-sm">
+                        <option>Choose...</option>
+                        <option>New York</option>
+                        <option>San Diego</option>
+                    </select>
+                    <span asp-validation-for="Contry" class="text-danger"></span>
+                </div>
+                <div class="form-group col-lg-4 col-md-4 col-sm-12">
+                    <label asp-for="ZipCode" class="control-label"></label>
+                    <input asp-for="ZipCode" class="form-control form-control-sm" />
+                    <span asp-validation-for="ZipCode" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group col-lg-4 col-md-4 col-sm-12">
-                <label asp-for="CellPhome" class="control-label"></label>
-                <input asp-for="CellPhome" class="form-control form-control-sm" />
-                <span asp-validation-for="CellPhome" class="text-danger"></span>
+            <div class="row justify-content-md-center">
+                <div class="form-group col-lg-2 col-md-2 col-sm-12">
+                    <input type="submit" value="Accept" class="btn btn-success btn-user btn-block" />
+                </div>
+                <div class="form-group col-lg-2 col-md-2 col-sm-12">
+                    <a asp-action="Index" class="btn btn-secondary btn-user btn-block">Cancel</a>
+                </div>
             </div>
-            <div class="form-group col-lg-4 col-md-4 col-sm-12">
-                <label asp-for="Fax" class="control-label"></label>
-                <input asp-for="Fax" class="form-control form-control-sm" />
-                <span asp-validation-for="Fax" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-lg-12 col-md-12 col-sm-12">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control form-control-sm" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group  col-lg-4 col-md-4 col-sm-12">
-                <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control form-control-sm" />
-                <span asp-validation-for="City" class="text-danger"></span>
-            </div>
-            <div class="form-group col-lg-4 col-md-4 col-sm-12">
-                <label asp-for="Contry" class="control-label"></label>
-                <select asp-for="Contry" class="form-control form-control-sm">
-                    <option>Choose...</option>
-                    <option>New York</option>
-                    <option>San Diego</option>
-                </select>
-                <span asp-validation-for="Contry" class="text-danger"></span>
-            </div>
-            <div class="form-group col-lg-4 col-md-4 col-sm-12">
-                <label asp-for="ZipCode" class="control-label"></label>
-                <input asp-for="ZipCode" class="form-control form-control-sm" />
-                <span asp-validation-for="ZipCode" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="row justify-content-md-center">
-            <div class="form-group col-lg-2 col-md-2 col-sm-12">
-                <input type="submit" value="Accept" class="btn btn-success btn-user btn-block" />
-            </div>
-            <div class="form-group col-lg-2 col-md-2 col-sm-12">
-                <a asp-action="Index" class="btn btn-secondary btn-user btn-block">Cancel</a>
-            </div>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
 *@
 
 

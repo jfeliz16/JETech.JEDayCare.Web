@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
 using JETech.JEDayCare.Web.Models.Client;
+using JETech.NetCoreWeb.Controls.Menu;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using JETech.NetCoreWeb.Controls.Menu;
-using DevExtreme.AspNet.Data;
+using JETech.NetCoreWeb.Extensions;
+using JETech.NetCoreWeb.Exceptions;
 
 namespace JETech.JEDayCare.Web.Controllers.Client
-{
+{ 
     public class ClientMantController : Controller
-    {        
-
+    {
         private string GetPathView(string viewName)
         {
             return "Views/Client/ClientMant/" + viewName + ".cshtml";
@@ -24,13 +25,15 @@ namespace JETech.JEDayCare.Web.Controllers.Client
         {
             return View(GetPathView("Index"));
         }
-              
+
         public ActionResult Details(int id)
         {
             return View();
         }
 
         // GET: ClientController/Create
+
+        [HttpGet]
         public ActionResult Create()
         {
             return View(GetPathView("Create"));
@@ -40,17 +43,18 @@ namespace JETech.JEDayCare.Web.Controllers.Client
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(AddClientViewModel model)
-        {            
+        {
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    return View(GetPathView("Create"));
-                }
+                    return new JsonResult(new { success = false });
+                }              
                 return RedirectToAction(GetPathView("Index"));
             }
-            catch
+            catch(Exception ex)
             {
+                ModelState.AddModelError("", JETechException.Parse(ex).AppMessage);
                 return View();
             }
         }
@@ -64,7 +68,7 @@ namespace JETech.JEDayCare.Web.Controllers.Client
         // POST: ClientController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, AddClientViewModel model)
         {
             try
             {
@@ -98,10 +102,11 @@ namespace JETech.JEDayCare.Web.Controllers.Client
         }
 
         [HttpGet]
-        public object GetActions(DataSourceLoadOptions loadOptions) {
-            IEnumerable<MenuItem> menuItems = new []
+        public object GetActions(DataSourceLoadOptions loadOptions)
+        {
+            IEnumerable<MenuItem> menuItems = new[]
             {
-                new MenuItem{                    
+                new MenuItem{
                     icon = "more",
                     items  = new[] {
                         new MenuItem {
@@ -109,9 +114,9 @@ namespace JETech.JEDayCare.Web.Controllers.Client
                         },
                         new MenuItem {
                             text = "Print",
-                            icon = "print"                            
+                            icon = "print"
                         }
-                    } 
+                    }
                 }
             };
 
@@ -119,3 +124,4 @@ namespace JETech.JEDayCare.Web.Controllers.Client
         }
     }
 }
+

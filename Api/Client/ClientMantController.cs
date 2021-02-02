@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using JETech.NetCoreWeb.Types;
 using JETech.JEDayCare.Core.Clients.Interfaces;
 using JETech.JEDayCare.Core.Clients.Models;
+using JETech.NetCoreWeb.Exceptions;
+using JETech.NetCoreWeb.Types;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using JETech.NetCoreWeb.Exceptions;
 
-namespace JETech.JEDayCare.Web.Api.Client
+namespace JETech.JEDayCare.Web.Api.Client.ClientMant
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -16,22 +18,22 @@ namespace JETech.JEDayCare.Web.Api.Client
     {
         private readonly IClientService _clientService;
 
-        public ClientMantController(IClientService clientService) 
+        public ClientMantController(IClientService clientService)
         {
             _clientService = clientService;
         }
 
-        [HttpPost]        
+        [HttpPost]
         public async Task<IActionResult> Get(ActionQueryArgs<ClientModel> args)
         {
             try
             {
                 if (!string.IsNullOrEmpty(args.CondictionString))
-                {                    
-                        args.Condiction = JETech.DevExtremeCore.Converter.FilterToExpresion<ClientModel>(args.CondictionString);
+                {
+                    args.Condiction = JETech.DevExtremeCore.Converter.FilterToExpresion<ClientModel>(args.CondictionString);
                 }
-                var resultCli =  _clientService.GetClients(args);
-                
+                var resultCli = _clientService.GetClients(args);
+
                 var result = new ActionPaginationResult<List<ClientModel>>
                 {
                     Data = await resultCli.Data.AsNoTracking().ToListAsync(),
@@ -43,9 +45,9 @@ namespace JETech.JEDayCare.Web.Api.Client
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(String.Empty,JETechException.Parse(ex).AppMessage);
+                ModelState.AddModelError(String.Empty, JETechException.Parse(ex).AppMessage);
                 throw;
-            } 
+            }
         }
 
         //[HttpGet]
@@ -57,7 +59,8 @@ namespace JETech.JEDayCare.Web.Api.Client
         //}
 
         [HttpGet("GetName")]
-        public IActionResult GetName() {
+        public IActionResult GetName()
+        {
             return Ok("My name");
         }
     }
