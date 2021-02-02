@@ -91,33 +91,31 @@
 
 <script>
 
-
-
     function onClickSave() {
-        alert("Do you want to save the register?");      
+        if (confirm("Do you want to save the register ?")) {
+            var model = $('#clientForm').serialize();
 
-        var model = $('#clientForm').serialize();
+            $.ajax({
+                type: 'POST',
+                url: "https://localhost:44393/ClientMant/Create/",
+                dataType: 'html',
+                data: model,
+                // contentType: 'aplication/json; charset=utf-8',
+                success: function (result) {
+                    var result = JSON.parse(result);
+                    var success = result.success;
 
-        $.ajax({
-            type: 'POST',
-            url: "https://localhost:44393/ClientMant/Create/",
-            dataType: 'html',
-            data: model,
-            // contentType: 'aplication/json; charset=utf-8',
-            success: function (result) {   
-                var result = JSON.parse(result);
-                var success = result.success;
-              
-                if (!success) {                
-                    $("#clientFormDev").dxForm('instance').validate();
-                } else {
-                    alert("Operation succesful.");
+                    if (!success) {
+                        $("#clientFormDev").dxForm('instance').validate();
+                    } else {
+                        alert("Operation succesful.");
+                    }
+                },
+                error: function (error) {
+                    alert(Json.error);
                 }
-            },
-            error: function (error) {
-                alert(Json.error);
-            }
-        });
+            });
+        }
     }
 </script>
 
