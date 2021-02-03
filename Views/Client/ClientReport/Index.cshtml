@@ -1,0 +1,27 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<span>Prueba desde aqui</span>
+<input type="button" onclick="pressMe()" />
+
+@section Scripts
+{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+@Html.Script(
+    @<script></script>        
+    )
+
+@*@using (Html.BeginScripts())
+{
+    <script>
+        function pressMe() {
+            alert("Yes");
+        }
+    </script>
+
+}*@
+
