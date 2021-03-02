@@ -7,7 +7,7 @@ namespace JETech.JEDayCare.Web.Global
 {
     public class Messages
     {
-        public const string NullFieldVal = "Este campo {0} es requerido.";
-        public const string MaxLengthVal = "El campo {0} no pueden contener mas de {1} caracteres.";
+        public const string NullFieldVal = "This field is requiered {0}.";
+        public const string MaxLengthVal = "This field {0} max lenght is {1}.";
     }
 }

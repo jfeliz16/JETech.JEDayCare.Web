@@ -11,66 +11,85 @@
         <div class="form-container">
             <form id="clientForm" asp-action="Create" asp-controller="ClientMant" method="post">
                 @(Html.DevExtreme().Form<AddClientViewModel>()
-.ID("clientFormDev")
-.ColCount(2)
-.MinColWidth(300)
-.LabelLocation(FormLabelLocation.Top)
-.ShowColonAfterLabel(true)
-.Items(items =>
-{
-    items.AddGroup()
-        .Items(items =>
-        {
-            items.AddSimpleFor(m => m.FirstName);
-        //items.AddSimpleFor(m => m.BirthDate);
-    });
-    items.AddGroup()
-        .Items(items =>
-        {
-            items.AddSimpleFor(m => m.LastName);
-        });
-})
-//.Items( items => {
-//    items.AddGroup()
-//        .Caption("Tutor Information")
-//        .Items(items => {
-//            items.AddSimpleFor(m => m.FirstName);
-//            items.AddSimpleFor(m => m.LastName);
-//            items.AddSimpleFor(m => m.CellPhone);
-//            items.AddSimpleFor(m => m.HomePhone);
-//            items.AddSimpleFor(m => m.Email);
-//        });
-//    items.AddGroup()
-//        .Caption("Address")
-//        .Items(items =>
-//        {
-//            items.AddSimpleFor(m => m.Address);
-//            items.AddSimpleFor(m => m.Contry);
-//            items.AddSimpleFor(m => m.State);
-//            items.AddSimpleFor(m => m.City);
-//            items.AddSimpleFor(m => m.ZipCode);
-//        });
-//})
-.FormData(Model)
-            )
+                .ID("formDev")
+                .ColCount(2)
+                .MinColWidth(300)
+                .LabelLocation(FormLabelLocation.Left)
+                .ShowColonAfterLabel(true)
+                //.ShowValidationSummary(true)
+                .Items(items =>
+                {
+                    items.AddGroup()
+                        .Items(items =>
+                        {
+                            items.AddSimpleFor(m => m.FirstNameChild);
+                            items.AddSimpleFor(m => m.BirthDateChild)
+                            .Editor( e => e
+                                .DateBox()
+                                .Width("30%"));
+                            items.AddEmpty();
+                        });
+                    items.AddGroup()
+                        .Items(items =>
+                        {
+                            items.AddSimpleFor(m => m.LastNameChild);
+                        });
+                })
+                .Items(items =>
+                {
+                    items.AddGroup()
+                        .Caption("Tutor Information")
+                        .Items(items =>
+                        {
+                            items.AddSimpleFor(m => m.FirstName);
+                            items.AddSimpleFor(m => m.LastName);
+                            items.AddSimpleFor(m => m.Email)
+                            .Editor(e => e
+                                .TextBox()
+                                .Width("50%"));
+                            items.AddSimpleFor(m => m.CellPhone)
+                            .Editor(e => e
+                                .TextBox()
+                                .Width("30%"));
+                            items.AddSimpleFor(m => m.HomePhone)
+                            .Editor(e => e
+                                .TextBox()
+                                .Width("30%"));
+                        });
+                    items.AddGroup()
+                        .Caption("Address")
+                       .Items(items =>
+                        {
+                            items.AddSimpleFor(m => m.Address);
+                            items.AddSimpleFor(m => m.Contry);
+                            items.AddSimpleFor(m => m.State);
+                            items.AddSimpleFor(m => m.City);
+                            items.AddSimpleFor(m => m.ZipCode)
+                                .Editor(e => e
+                                    .TextBox()
+                                    .Width("30%"));
+                        });
+                })
+                .FormData(Model))
                 <div id="div-final-action-form" class="row justify-content-md-center">
                     <div class="form-group col-lg-2 col-md-2 col-sm-12">
                         @(Html.DevExtreme().Button()
-.Type(ButtonType.Success)
-.OnClick("onClickSave")
-.Text("Save")
-.Icon("save"))
-                    </div>
+                            .Type(ButtonType.Success)
+                            .OnClick("onClickSave")
+                            .Text("Save")
+                            .Icon("save"))
+                     </div>
                     <div class="form-group col-lg-2 col-md-2 col-sm-12">
-                        @(Html.DevExtreme().Button()
-.Text("Cancel"))
+                        @(Html.DevExtreme().Button()                        
+                            .Text("Cancel")
+                            .OnClick(@<text>function () { window.location = "@Url.Action("Index", "ClientMant")"; }</text>))
                     </div>
                 </div>
-                <div class="row justify-content-center">
+                @*<div class="row justify-content-center">
                     <div class="form-group col-lg-2 col-md-2 col-sm-12">
                         <input type="submit" value="Accept" class="btn btn-success" />
                     </div>
-                </div>
+                </div>*@
             </form>
             @*<div class="row justify-content-md-center">
                     <div class="form-group col-lg-2 col-md-2 col-sm-12">
@@ -95,9 +114,11 @@
         if (confirm("Do you want to save the register ?")) {
             var model = $('#clientForm').serialize();
 
+            alert(JSON.stringify( model));
+
             $.ajax({
                 type: 'POST',
-                url: "https://localhost:44393/ClientMant/Create/",
+                url: "https://localhost:44393/ClientMant/Create",
                 dataType: 'html',
                 data: model,
                 // contentType: 'aplication/json; charset=utf-8',
@@ -106,13 +127,13 @@
                     var success = result.success;
 
                     if (!success) {
-                        $("#clientFormDev").dxForm('instance').validate();
+                        $("#formDev").dxForm('instance').validate();
                     } else {
                         alert("Operation succesful.");
                     }
                 },
                 error: function (error) {
-                    alert(Json.error);
+                    alert(JSON.stringify(error));
                 }
             });
         }

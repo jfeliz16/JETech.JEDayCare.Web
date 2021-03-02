@@ -8,18 +8,20 @@ namespace JETech.JEDayCare.Web.Models.Client
 {
     public class AddClientViewModel
     {
-        [Display(Name = "Client Type")]        
-        public int ClientType { get; set; }
-
         [Display(Name = "Full Name")]
         [MaxLength(120, ErrorMessage = Global.Messages.MaxLengthVal)]
         [Required(ErrorMessage = Global.Messages.NullFieldVal)]
         public string FullName { get; set; }
-
+        
         [Display(Name = "Firts Names")]
         [MaxLength(60, ErrorMessage = Global.Messages.MaxLengthVal)]
         [Required(ErrorMessage = Global.Messages.NullFieldVal)]
         public string FirstNameChild { get; set; }
+
+        [Display(Name = "Birth Date")]
+        [DataType(DataType.Date)]
+        [Required(ErrorMessage = Global.Messages.NullFieldVal)]
+        public DateTime BirthDateChild { get; set; }
 
         [Display(Name = "Lasts Names")]
         [MaxLength(60, ErrorMessage = Global.Messages.MaxLengthVal)]
@@ -45,16 +47,15 @@ namespace JETech.JEDayCare.Web.Models.Client
         public string IdentityId { get; set; }
 
         [Display(Name = "Home Phone")]
-        [MaxLength(10, ErrorMessage = Global.Messages.MaxLengthVal)]        
+        [MaxLength(10, ErrorMessage = Global.Messages.MaxLengthVal)]
+        [DataType(DataType.PhoneNumber)]
         public string HomePhone { get; set; }
 
         [Display(Name = "Cell Phone")]
         [MaxLength(10, ErrorMessage = Global.Messages.MaxLengthVal)]
+        [DataType(DataType.PhoneNumber)]
+        [Required(ErrorMessage = Global.Messages.NullFieldVal)]
         public string CellPhone { get; set; }
-
-        [Display(Name = "Fax")]
-        [MaxLength(10, ErrorMessage = Global.Messages.MaxLengthVal)]
-        public string Fax { get; set; }
 
         [Display(Name = "Contry")]
         [MaxLength(60, ErrorMessage = Global.Messages.MaxLengthVal)]
@@ -78,10 +79,7 @@ namespace JETech.JEDayCare.Web.Models.Client
 
         [Display(Name = "Email")]
         [MaxLength(50, ErrorMessage = Global.Messages.MaxLengthVal)]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
-
-        [Display(Name = "Birth Date")]
-        [DataType(DataType.Date)]
-        public DateTime? BirthDate { get; set; }
     }
 }
