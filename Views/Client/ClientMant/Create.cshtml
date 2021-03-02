@@ -8,7 +8,7 @@
         <h5 class="title-form">@(ViewData["Title"])</h5>
     </div>
     <div class="widget-container">
-        <div class="form-container">
+        <div id="div-loadPanel" class="form-container">
             <form id="clientForm" asp-action="Create" asp-controller="ClientMant" method="post">
                 @(Html.DevExtreme().Form<AddClientViewModel>()
                 .ID("formDev")
@@ -103,6 +103,19 @@
     </div>
 </div>
 
+@(Html.DevExtreme().LoadPanel()
+    .ID("loadPanel")
+    .ShadingColor("rgba(0,0,0,0.4)")
+    .Position(p => p.Of("#div-loadPanel"))
+    .Visible(false)
+    .ShowIndicator(true)
+    .ShowPane(true)
+    .Shading(true)
+    .CloseOnOutsideClick(false)
+    //.OnShown("loadPanel_shown")
+    //.OnHidden("loadPanel_hidden")
+    )
+
 @section Scripts
 {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
@@ -110,11 +123,20 @@
 
 <script>
 
+    function getLoadPanelInstance()
+    {
+        return $("#loadPanel").dxLoadPanel("instance");
+    }
+
     function onClickSave() {
         if (confirm("Do you want to save the register ?")) {
+
+            var loadPanel = getLoadPanelInstance();
+            loadPanel.show();
+
             var model = $('#clientForm').serialize();
 
-            alert(JSON.stringify( model));
+            //alert(JSON.stringify( model));
 
             $.ajax({
                 type: 'POST',
@@ -131,6 +153,7 @@
                     } else {
                         alert("Operation succesful.");
                     }
+                    loadPanel.hide();
                 },
                 error: function (error) {
                     alert(JSON.stringify(error));
