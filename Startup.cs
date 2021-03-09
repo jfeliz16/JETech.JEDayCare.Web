@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JETech.JEDayCare.Core.Administration.Interfaces;
+using JETech.JEDayCare.Core.Administration.Services;
 using JETech.JEDayCare.Core.Clients.Interfaces;
 using JETech.JEDayCare.Core.Clients.Services;
 using JETech.JEDayCare.Core.Data;
@@ -58,6 +60,7 @@ namespace JETech_SIC_Web
             services.AddScoped<IUserService,UserService>();
             services.AddScoped<IUserConverterHelper,UserConverterHelper>();
             services.AddScoped<IClientService, ClientService>();
+            services.AddScoped<IPersonService, PersonService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

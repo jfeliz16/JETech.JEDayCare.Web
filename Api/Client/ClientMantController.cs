@@ -23,7 +23,7 @@ namespace JETech.JEDayCare.Web.Api.Client.ClientMant
             _clientService = clientService;
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Get(ActionQueryArgs<ClientModel> args)
         {
             try
@@ -38,15 +38,57 @@ namespace JETech.JEDayCare.Web.Api.Client.ClientMant
                 {
                     Data = await resultCli.Data.AsNoTracking().ToListAsync(),
                     GroupCount = resultCli.GroupCount,
-                    TotalCount = resultCli.TotalCount
+                    TotalCount = resultCli.TotalCount,
                 };
-
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(String.Empty, JETechException.Parse(ex).AppMessage);
-                throw;
+                return StatusCode(StatusCodes.Status500InternalServerError, JETechException.Parse(ex).AppMessage);
+            }
+        }
+
+        [HttpPost("GetAjax")]
+        public async Task<IActionResult> GetAjax(ActionQueryArgs<ClientModel> args)
+        {          
+            try
+            {
+                if (!string.IsNullOrEmpty(args.CondictionString))
+                {
+                    args.Condiction = JETech.DevExtremeCore.Converter.FilterToExpresion<ClientModel>(args.CondictionString);
+                }
+                var resultCli = _clientService.GetClients(args);
+
+                var result = new ActionPaginationResult<List<ClientModel>>
+                {
+                    Data = await resultCli.Data.AsNoTracking().ToListAsync(),
+                    GroupCount = resultCli.GroupCount,
+                    TotalCount = resultCli.TotalCount,
+                };           
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, JETechException.Parse(ex).AppMessage);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(ActionArgs<ClientModel> args)
+        {
+            try
+            {
+                var resultClient = await _clientService.Create(args);
+
+                var result = new JETech.NetCoreWeb.Types.ActionResult<int>
+                {
+                    Data = resultClient.Data
+                };
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, JETechException.Parse(ex).AppMessage);
             }
         }
 
