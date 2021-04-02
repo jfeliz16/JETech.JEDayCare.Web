@@ -24,7 +24,7 @@
                         {
                             items.AddSimpleFor(m => m.FirstNameChild);
                             items.AddSimpleFor(m => m.BirthDateChild)
-                            .Editor( e => e
+                            .Editor( e => e                                
                                 .DateBox()
                                 .Width("30%"));
                             items.AddEmpty();
@@ -134,16 +134,26 @@
             var loadPanel = getLoadPanelInstance();
             loadPanel.show();
 
-            var model = $('#clientForm').serialize();
+            var data = getFormData('#clientForm');  
 
-            //alert(JSON.stringify( model));
+            var model = {
+                "FirstNameChild": data['FirstNameChild'],
+                "LastNameChild": data['FirstNameChild']
+            };
+
+            alert(JSON.stringify(data));
 
             $.ajax({
+               // type: 'POST',
+                //url: "https://localhost:44393/Api/ClientMantApi",
+               // dataType: 'json',
+                //data: JSON.stringify(d),
+                //contentType: 'aplication/json; charset=utf-8',
                 type: 'POST',
-                url: "https://localhost:44393/ClientMant/Create",
-                dataType: 'html',
-                data: model,
-                // contentType: 'aplication/json; charset=utf-8',
+                url: "https://localhost:44393/Api/ClientMantApi",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(model),
                 success: function (result) {
                     var result = JSON.parse(result);
                     var success = result.success;
@@ -157,9 +167,21 @@
                 },
                 error: function (error) {
                     alert(JSON.stringify(error));
+                    loadPanel.hide();
                 }
             });
         }
+    }
+
+    function getFormData(name) {
+        var unindexed_array = $(name).serializeArray();
+        var indexed_array = {};
+
+        $.map(unindexed_array, function (n, i) {
+            indexed_array[n['name']] = n['value'];
+        });
+
+        return indexed_array;
     }
 </script>
 

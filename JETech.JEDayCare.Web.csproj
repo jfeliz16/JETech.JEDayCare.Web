@@ -53,14 +53,14 @@
     <Reference Include="JETech.DevExtremeCore">
       <HintPath>..\..\DevExtremeCore\JETech.DevExtremeCore\bin\Debug\netcoreapp3.1\JETech.DevExtremeCore.dll</HintPath>
     </Reference>
-    <Reference Include="JETech.JEDayCare.Core">
-      <HintPath>..\JETech.JEDayCare.Core\bin\Debug\netcoreapp3.1\JETech.JEDayCare.Core.dll</HintPath>
-    </Reference>
     <Reference Include="JETech.NetCoreWeb">
       <HintPath>..\..\NetCoreWeb\JETech.NetCoreWeb\bin\Debug\netcoreapp3.1\JETech.NetCoreWeb.dll</HintPath>
     </Reference>
     <PackageReference Include="DevExtreme.AspNet.Core" Version="20.2.3" />
     <PackageReference Include="DevExtreme.AspNet.Data" Version="2.7.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JETech.JEDayCare.Core\JETech.JEDayCare.Core.csproj" />
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>

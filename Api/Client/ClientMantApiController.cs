@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using JETech.JEDayCare.Core.Clients.Interfaces;
 using JETech.JEDayCare.Core.Clients.Models;
+using JETech.JEDayCare.Web.Models.Client;
 using JETech.NetCoreWeb.Exceptions;
 using JETech.NetCoreWeb.Types;
 using Microsoft.AspNetCore.Http;
@@ -14,11 +15,11 @@ namespace JETech.JEDayCare.Web.Api.Client.ClientMant
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClientMantController : ControllerBase
+    public class ClientMantApiController : ControllerBase
     {
         private readonly IClientService _clientService;
 
-        public ClientMantController(IClientService clientService)
+        public ClientMantApiController(IClientService clientService)
         {
             _clientService = clientService;
         }
@@ -48,7 +49,7 @@ namespace JETech.JEDayCare.Web.Api.Client.ClientMant
             }
         }
 
-        [HttpPost("GetAjax")]
+        [HttpPost("[action]")]
         public async Task<IActionResult> GetAjax(ActionQueryArgs<ClientModel> args)
         {          
             try
@@ -74,11 +75,11 @@ namespace JETech.JEDayCare.Web.Api.Client.ClientMant
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ActionArgs<ClientModel> args)
+        public async Task<IActionResult> Create(AddClientViewModel model)
         {
             try
             {
-                var resultClient = await _clientService.Create(args);
+                var resultClient = await _clientService.Create(new ActionArgs<ClientModel> { Data = null});
 
                 var result = new JETech.NetCoreWeb.Types.ActionResult<int>
                 {
