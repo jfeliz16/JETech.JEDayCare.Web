@@ -52,6 +52,8 @@ namespace JETech.JEDayCare.Web.Models.Client
         [Required(ErrorMessage = Global.Messages.NullFieldVal)]
         public string CellPhone { get; set; }
 
+        public string ContryId { get; set; }
+
         [Display(Name = "Contry")]
         [MaxLength(60, ErrorMessage = Global.Messages.MaxLengthVal)]
         public string Contry { get; set; }

@@ -10,11 +10,20 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using JETech.NetCoreWeb.Extensions;
 using JETech.NetCoreWeb.Exceptions;
+using JETech.JEDayCare.Core.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace JETech.JEDayCare.Web.Controllers.Client
 { 
     public class ClientMantController : Controller
     {
+        private readonly JEDayCareDbContext _dbContext;
+
+        public ClientMantController(JEDayCareDbContext dbContext) 
+        {
+            _dbContext = dbContext;
+        }
+
         private string GetPathView(string viewName)
         {
             return "Views/Client/ClientMant/" + viewName + ".cshtml";
@@ -111,12 +120,22 @@ namespace JETech.JEDayCare.Web.Controllers.Client
                     items  = new[] {
                         new MenuItem {
                             text = "Enable//Disable"
+                        },
+                        new MenuItem {
+                            text = "Print",
+                            icon = "print"
                         }
                     }
                 }
             };
 
             return DataSourceLoader.Load(menuItems, loadOptions);
+        }
+
+        [HttpGet]
+        public IEnumerable<Contry> GetContries()
+        {
+            return _dbContext.Contries.OrderBy(c=> c.Name).AsNoTracking().ToList();
         }
     }
 }

@@ -19,6 +19,7 @@ namespace JETech.JEDayCare.Web.Helper
             {
                 Address = model.Address,
                 CellPhone = model.CellPhone,
+                ContryId = int.TryParse(model.ContryId, out var c) ? c : default(int?),
                 Email = model.Email,
                 FirstName = model.FirstName,
                 HomePhone = model.HomePhone,
