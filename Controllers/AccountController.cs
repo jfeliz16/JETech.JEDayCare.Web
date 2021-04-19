@@ -10,7 +10,7 @@ using System.Security.Cryptography;
 //using DevExtreme.AspNet.Mvc;
 using JETech.JEDayCare.Core.Data.Entities;
 using JETech.JEDayCare.Core.User.Helper;
-using JETech.JEDayCare.Web.Helper.User;
+using JETech.JEDayCare.Web.Helper;
 using JETech.JEDayCare.Core.User.Services;
 using JETech.JEDayCare.Core.User.Interfaces;
 using JETech.JEDayCare.Core.Global;

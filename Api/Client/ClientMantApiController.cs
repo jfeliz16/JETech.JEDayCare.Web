@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using JETech.JEDayCare.Core.Clients.Interfaces;
 using JETech.JEDayCare.Core.Clients.Models;
+using JETech.JEDayCare.Web.Helper;
 using JETech.JEDayCare.Web.Models.Client;
 using JETech.NetCoreWeb.Exceptions;
 using JETech.NetCoreWeb.Types;
@@ -18,10 +19,13 @@ namespace JETech.JEDayCare.Web.Api.Client.ClientMant
     public class ClientMantApiController : ControllerBase
     {
         private readonly IClientService _clientService;
+        private readonly IClientConverterHelper _clientConverter;
 
-        public ClientMantApiController(IClientService clientService)
+        public ClientMantApiController(IClientService clientService,
+                                       IClientConverterHelper clientConverter)
         {
             _clientService = clientService;
+            _clientConverter = clientConverter;
         }
 
         [HttpGet]
@@ -79,11 +83,12 @@ namespace JETech.JEDayCare.Web.Api.Client.ClientMant
         {
             try
             {
-                var resultClient = await _clientService.Create(new ActionArgs<ClientModel> { Data = null});
+                var clientModel = _clientConverter.ToClientModel(model);
+                var resultClient = await _clientService.Create(new ActionArgs<ClientModel> { Data = clientModel });
 
                 var result = new JETech.NetCoreWeb.Types.ActionResult<int>
                 {
-                    Data = resultClient.Data
+                    Data = resultClient.Data                    
                 };
                 return Ok(result);
             }

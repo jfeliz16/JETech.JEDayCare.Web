@@ -1,7 +1,7 @@
 ﻿using JETech.JEDayCare.Core.User.Models;
 using JETech.JEDayCare.Web.Models;
 
-namespace JETech.JEDayCare.Web.Helper.User
+namespace JETech.JEDayCare.Web.Helper
 {
     public interface IUserConverterHelper
     {

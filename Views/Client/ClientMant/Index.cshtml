@@ -1,5 +1,5 @@
-﻿@model IEnumerable<JETech.JEDayCare.Web.Models.Client.ClientViewModel>
-@using JETech.JEDayCare.Web.Models.Client;
+﻿@model IEnumerable<JETech.JEDayCare.Core.Clients.Models.ClientModel>
+@using JETech.JEDayCare.Core.Clients.Models;
 @{
     ViewData["Title"] = "Childs";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -67,13 +67,13 @@
             </div>
 
             <div>
-                @(Html.DevExtreme().DataGrid<ClientViewModel>()
+                @(Html.DevExtreme().DataGrid<ClientModel>()
                     .ID("gridClients")
                     .ShowBorders(true)
                     .RemoteOperations(c => c.GroupPaging(true)) //Enabled pagination
                     .FilterRow(filter => filter
                         .Visible(true)
-                        .ApplyFilter(GridApplyFilterMode.Auto)                        
+                        .ApplyFilter(GridApplyFilterMode.Auto)
                         .ShowOperationChooser(false))
                     .DataSource( new JS("store"))
                     //.DataSource(d => d.StaticJson().Url("~/api/ClientMantApi/").Key("Id"))
@@ -87,11 +87,13 @@
                         pager.ShowInfo(true);
                     })
                     .Columns(columns => {
-                        columns.AddFor(c => c.Id);
-                        columns.AddFor(c => c.FirstName);
-                        columns.AddFor(c => c.LastName);
-                        columns.AddFor(c => c.CellPhone);
-                        columns.AddFor(c => c.StatusName);
+                        columns.AddFor(c => c.Id)
+                            .Width("10%");                        
+                        columns.AddFor(c => c.FullName);
+                        columns.AddFor(c => c.Parent.FullName)
+                            .Caption("Parent");
+                        columns.AddFor(c => c.StatusName)
+                            .Width("10%");
                     })
                 )
             </div>

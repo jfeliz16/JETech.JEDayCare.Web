@@ -111,10 +111,6 @@ namespace JETech.JEDayCare.Web.Controllers.Client
                     items  = new[] {
                         new MenuItem {
                             text = "Enable//Disable"
-                        },
-                        new MenuItem {
-                            text = "Print",
-                            icon = "print"
                         }
                     }
                 }

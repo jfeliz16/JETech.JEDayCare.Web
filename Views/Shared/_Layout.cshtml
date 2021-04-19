@@ -301,6 +301,16 @@
             }
         });
 
+        function showNotification(msg, duration) {
+            var el = document.createElement("div");
+            el.setAttribute("style", "text-align: center;width: 20%;height: 50px; border: 1px solid;border-radius: 3px;position:absolute;top:10%;left:40%;background-color:white;");
+            el.innerHTML = msg;
+            setTimeout(function () {
+                el.parentNode.removeChild(el);
+            }, duration);
+            document.body.appendChild(el);
+        }
+
     </script>
     @*<a href="#" class="menu" data-url="@Url.Action(....)">...</a>
         and you would have only one script - $('.menu').click(function() { var url = $(this).data('url'); $('#page-content').load(url); });*@

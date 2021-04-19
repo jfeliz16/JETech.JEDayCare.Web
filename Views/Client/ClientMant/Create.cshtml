@@ -24,9 +24,9 @@
                         {
                             items.AddSimpleFor(m => m.FirstNameChild);
                             items.AddSimpleFor(m => m.BirthDateChild)
-                            .Editor( e => e                                
-                                .DateBox()
-                                .Width("30%"));
+                            .Editor(e => e
+                               .DateBox()
+                               .Width("30%"));
                             items.AddEmpty();
                         });
                     items.AddGroup()
@@ -59,16 +59,16 @@
                     items.AddGroup()
                         .Caption("Address")
                        .Items(items =>
-                        {
-                            items.AddSimpleFor(m => m.Address);
-                            items.AddSimpleFor(m => m.Contry);
-                            items.AddSimpleFor(m => m.State);
-                            items.AddSimpleFor(m => m.City);
-                            items.AddSimpleFor(m => m.ZipCode)
-                                .Editor(e => e
-                                    .TextBox()
-                                    .Width("30%"));
-                        });
+                       {
+                           items.AddSimpleFor(m => m.Address);
+                           items.AddSimpleFor(m => m.Contry);
+                           items.AddSimpleFor(m => m.State);
+                           items.AddSimpleFor(m => m.City);
+                           //items.AddSimpleFor(m => m.ZipCode)
+                               //.Editor(e => e
+                                  // .TextBox()
+                                  // .Width("30%"));
+                       });
                 })
                 .FormData(Model))
                 <div id="div-final-action-form" class="row justify-content-md-center">
@@ -130,43 +130,30 @@
 
     function onClickSave() {
         if (confirm("Do you want to save the register ?")) {
-
             var loadPanel = getLoadPanelInstance();
             loadPanel.show();
 
-            var data = getFormData('#clientForm');  
-
-            var model = {
-                "FirstNameChild": data['FirstNameChild'],
-                "LastNameChild": data['FirstNameChild']
-            };
-
-            alert(JSON.stringify(data));
-
-            $.ajax({
-               // type: 'POST',
-                //url: "https://localhost:44393/Api/ClientMantApi",
-               // dataType: 'json',
-                //data: JSON.stringify(d),
-                //contentType: 'aplication/json; charset=utf-8',
-                type: 'POST',
+            var dataModel = JSON.stringify(getFormData('#clientForm'));  
+   
+            $.ajax({        
                 url: "https://localhost:44393/Api/ClientMantApi",
                 dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(model),
+                data: dataModel,
+                contentType: 'application/json',
+                type: 'post',                
                 success: function (result) {
-                    var result = JSON.parse(result);
-                    var success = result.success;
+                    if (result !== null && result.Data !== null && result.Data > 0) {
+                        loadPanel.hide();
 
-                    if (!success) {
-                        $("#formDev").dxForm('instance').validate();
+                        showNotification("Operation successful", 2 * 1000);
+
+                        window.location = '@Url.Action("Index", "ClientMant")'
                     } else {
-                        alert("Operation succesful.");
+                        loadPanel.hide();
+                        $("#formDev").dxForm('instance').validate();
                     }
-                    loadPanel.hide();
                 },
                 error: function (error) {
-                    alert(JSON.stringify(error));
                     loadPanel.hide();
                 }
             });

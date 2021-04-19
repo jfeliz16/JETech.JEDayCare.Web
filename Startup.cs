@@ -1,17 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using JETech.JEDayCare.Core.Administration.Interfaces;
 using JETech.JEDayCare.Core.Administration.Services;
 using JETech.JEDayCare.Core.Clients.Interfaces;
 using JETech.JEDayCare.Core.Clients.Services;
 using JETech.JEDayCare.Core.Data;
 using JETech.JEDayCare.Core.Data.Entities;
-using JETech.JEDayCare.Core.User.Helper;
 using JETech.JEDayCare.Core.User.Interfaces;
 using JETech.JEDayCare.Core.User.Services;
-using JETech.JEDayCare.Web.Helper.User;
+using JETech.JEDayCare.Web.Helper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -56,9 +51,10 @@ namespace JETech_SIC_Web
                 .AddControllersWithViews()
                 .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
 
-            services.AddTransient<SeedDb>();
-            services.AddScoped<IUserService,UserService>();
+            services.AddTransient<SeedDb>();            
             services.AddScoped<IUserConverterHelper,UserConverterHelper>();
+            services.AddScoped<IClientConverterHelper, ClientConverterHelper>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IClientService, ClientService>();
             services.AddScoped<IPersonService, PersonService>();
         }

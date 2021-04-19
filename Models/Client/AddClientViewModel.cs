@@ -7,12 +7,7 @@ using System.Threading.Tasks;
 namespace JETech.JEDayCare.Web.Models.Client
 {
     public class AddClientViewModel
-    {
-        [Display(Name = "Full Name")]
-        [MaxLength(120, ErrorMessage = Global.Messages.MaxLengthVal)]
-        [Required(ErrorMessage = Global.Messages.NullFieldVal)]
-        public string FullName { get; set; }
-        
+    {   
         [Display(Name = "Firts Names")]
         [MaxLength(60, ErrorMessage = Global.Messages.MaxLengthVal)]
         [Required(ErrorMessage = Global.Messages.NullFieldVal)]
@@ -39,11 +34,11 @@ namespace JETech.JEDayCare.Web.Models.Client
         public string LastName { get; set; }
 
         [Display(Name = "ID Type")]
-        [MaxLength(1, ErrorMessage = Global.Messages.MaxLengthVal)]        
+        [MaxLength(1, ErrorMessage = Global.Messages.MaxLengthVal)]
         public int? TypeIdentityId { get; set; }
 
         [Display(Name = "ID")]
-        [MaxLength(20, ErrorMessage = Global.Messages.MaxLengthVal)]        
+        [MaxLength(20, ErrorMessage = Global.Messages.MaxLengthVal)]
         public string IdentityId { get; set; }
 
         [Display(Name = "Home Phone")]

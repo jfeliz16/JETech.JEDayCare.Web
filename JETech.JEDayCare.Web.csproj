@@ -50,17 +50,17 @@
     <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="JETech.DevExtremeCore">
-      <HintPath>..\..\DevExtremeCore\JETech.DevExtremeCore\bin\Debug\netcoreapp3.1\JETech.DevExtremeCore.dll</HintPath>
-    </Reference>
-    <Reference Include="JETech.NetCoreWeb">
-      <HintPath>..\..\NetCoreWeb\JETech.NetCoreWeb\bin\Debug\netcoreapp3.1\JETech.NetCoreWeb.dll</HintPath>
-    </Reference>
     <PackageReference Include="DevExtreme.AspNet.Core" Version="20.2.3" />
     <PackageReference Include="DevExtreme.AspNet.Data" Version="2.7.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DevExtremeCore\JETech.DevExtremeCore\JETech.DevExtremeCore.csproj" />
     <ProjectReference Include="..\JETech.JEDayCare.Core\JETech.JEDayCare.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="JETech.NetCoreWeb">
+      <HintPath>..\..\NetCoreWeb\JETech.NetCoreWeb\bin\Debug\netcoreapp3.1\JETech.NetCoreWeb.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace JETech.JEDayCare.Web.Helper.User
+namespace JETech.JEDayCare.Web.Helper
 {
     public class UserConverterHelper : IUserConverterHelper
     {
