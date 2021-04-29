@@ -52,11 +52,15 @@ namespace JETech.JEDayCare.Web.Models.Client
         [Required(ErrorMessage = Global.Messages.NullFieldVal)]
         public string CellPhone { get; set; }
 
+        [Display(Name = "Contry")]
         public string ContryId { get; set; }
 
         [Display(Name = "Contry")]
         [MaxLength(60, ErrorMessage = Global.Messages.MaxLengthVal)]
         public string Contry { get; set; }
+
+        [Display(Name ="City")]
+        public int? CityId { get; set; }
 
         [Display(Name = "City")]
         [MaxLength(60, ErrorMessage = Global.Messages.MaxLengthVal)]

@@ -61,12 +61,14 @@
                        .Items(items =>
                        {
                            items.AddSimpleFor(m => m.Address);
-                           items.AddSimpleFor(m => m.ContryId)                            
+                           items.AddSimpleFor(m => m.ContryId)
                             .Editor(e => e
-                               .SelectBox()                               
+                               .SelectBox()
                                .ValueExpr("Id")
                                .DisplayExpr("Name")
-                               .DataSource(d => d.Mvc().LoadAction("GetContries")));
+                               //.DataSource(new JS("getContries(getContrieCallBack)")));
+                               .DataSource(d => d.StaticJson().Url("~/api/ClientMantApi/Contries")));
+                               //.DataSource(d => d.Mvc().LoadAction("GetContries")));
                            items.AddSimpleFor(m => m.City);
                            items.AddSimpleFor(m => m.State);
 
@@ -139,14 +141,14 @@
             var loadPanel = getLoadPanelInstance();
             loadPanel.show();
 
-            var dataModel = JSON.stringify(getFormData('#clientForm'));  
-   
-            $.ajax({        
+            var dataModel = JSON.stringify(getFormData('#clientForm'));
+
+            $.ajax({
                 url: "https://localhost:44393/Api/ClientMantApi",
                 dataType: "json",
                 data: dataModel,
                 contentType: 'application/json',
-                type: 'post',                
+                type: 'post',
                 success: function (result) {
                     if (result !== null && result.Data !== null && result.Data > 0) {
                         loadPanel.hide();
@@ -160,7 +162,7 @@
                     }
                 },
                 error: function (error) {
-                    alert(JSON.stringify(error));
+                    //alert(JSON.stringify(error));
                     loadPanel.hide();
                 }
             });
@@ -174,9 +176,8 @@
         $.map(unindexed_array, function (n, i) {
             indexed_array[n['name']] = n['value'];
         });
-
         return indexed_array;
-    }
+    }    
 </script>
 
 @*

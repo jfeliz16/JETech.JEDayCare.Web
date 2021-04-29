@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using JETech.JEDayCare.Core.Clients.Interfaces;
 using JETech.JEDayCare.Core.Clients.Models;
+using JETech.JEDayCare.Core.Data.Entities;
 using JETech.JEDayCare.Web.Helper;
 using JETech.JEDayCare.Web.Models.Client;
 using JETech.NetCoreWeb.Exceptions;
@@ -20,12 +21,15 @@ namespace JETech.JEDayCare.Web.Api.Client.ClientMant
     {
         private readonly IClientService _clientService;
         private readonly IClientConverterHelper _clientConverter;
+        private readonly JEDayCareDbContext _dbContext;
 
         public ClientMantApiController(IClientService clientService,
-                                       IClientConverterHelper clientConverter)
+                                       IClientConverterHelper clientConverter,
+                                       JEDayCareDbContext dbContext)
         {
             _clientService = clientService;
             _clientConverter = clientConverter;
+            _dbContext = dbContext;
         }
 
         [HttpGet]
@@ -110,6 +114,12 @@ namespace JETech.JEDayCare.Web.Api.Client.ClientMant
         public IActionResult GetName()
         {
             return Ok("My name");
+        }
+
+        [HttpGet("Contries")]
+        public  IActionResult Contries()
+        {
+            return Ok(_dbContext.Contries.OrderBy(c => c.Name).AsNoTracking().ToList());
         }
     }
 }
