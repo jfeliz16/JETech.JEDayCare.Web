@@ -16,28 +16,28 @@
                     <div class="row justify-content-end">
                         <div class="header-form-item">
                             @(Html.DevExtreme().Button()
-                            .Text("New")
-                            .Icon("plus")
-                            .Type(ButtonType.Default)
-                            .OnClick(@<text>
+    .Text("New")
+    .Icon("plus")
+    .Type(ButtonType.Default)
+    .OnClick(@<text>
                                         function(){ window.location = "@Url.Action("Create", "ClientMant")"; }
                                      </text>)
                             )
                         </div>
                         <div class="header-form-item">
                             @(Html.DevExtreme().Button()
-                            .Text("Refresh")
-                            .Icon("refresh")
-                            .Type(ButtonType.Normal)
-                            .OnClick("onRefreshGrid")
+    .Text("Refresh")
+    .Icon("refresh")
+    .Type(ButtonType.Normal)
+    .OnClick("onRefreshGrid")
                             )
                         </div>
                         <div class="header-form-item">
                             @(Html.DevExtreme().Button()
-                            .Text("Print")
-                            .Icon("print")
-                            .Type(ButtonType.Normal)
-                            .OnClick(@<text>function(){ window.location = "@Url.Action("Create", "ClientMant")";}
+    .Text("Print")
+    .Icon("print")
+    .Type(ButtonType.Normal)
+    .OnClick(@<text>function(){ window.location = "@Url.Action("Create", "ClientMant")";}
                                      </text>)
                             )
                         </div>
@@ -52,11 +52,11 @@
                             </div>*@
                         <div class="header-form-item">
                             @(Html.DevExtreme().Menu()
-                                .ID("menu")
-                                .DataSource(d => d.Mvc().LoadAction("GetActions"))
-                                .HideSubmenuOnMouseLeave(false)
-                                .OnItemClick("onActionClick")
-                                .CssClass("jet-menu-button")
+        .ID("menu")
+        .DataSource(d => d.Mvc().LoadAction("GetActions"))
+        .HideSubmenuOnMouseLeave(false)
+        .OnItemClick("onActionClick")
+        .CssClass("jet-menu-button")
                                 )
                             <div id="product-details" class="hidden">
                                 <div class="text"></div>
@@ -68,39 +68,54 @@
 
             <div>
                 @(Html.DevExtreme().DataGrid<ClientModel>()
-                    .ID("gridClients")
-                    .ShowBorders(true)
-                    .RemoteOperations(c => c.GroupPaging(true)) //Enabled pagination
-                    .FilterRow(filter => filter
-                        .Visible(true)
-                        .ApplyFilter(GridApplyFilterMode.Auto)
-                        .ShowOperationChooser(false))
-                    .DataSource( new JS("store"))
-                    //.DataSource(d => d.StaticJson().Url("~/api/ClientMantApi/").Key("Id"))
-                    .FocusedRowEnabled(true)
-                    .Paging(paging =>
-                        paging.PageSize(10))
-                    .Pager(pager =>
-                    {
-                        pager.ShowPageSizeSelector(true);
-                        pager.AllowedPageSizes(new[] { 5, 10, 20 });
-                        pager.ShowInfo(true);
-                    })
-                    .Columns(columns => {
-                        columns.AddFor(c => c.Id)
-                            .Width("10%");                        
-                        columns.AddFor(c => c.FullName);
-                        columns.AddFor(c => c.Parent.FullName)
-                            .Caption("Parent");
-                        columns.AddFor(c => c.StatusName)
-                            .Width("10%");
-                    })
+        .ID("gridClients")
+        .ShowBorders(true)
+        .RemoteOperations(c => c.GroupPaging(true)) //Enabled pagination
+        .FilterRow(filter => filter
+            .Visible(true)
+            .ApplyFilter(GridApplyFilterMode.Auto)
+            .ShowOperationChooser(false))
+        .DataSource(new JS("store"))
+        //.DataSource(d => d.StaticJson().Url("~/api/ClientMantApi/").Key("Id"))
+        .FocusedRowEnabled(true)
+        .Paging(paging =>
+            paging.PageSize(10))
+        .Pager(pager =>
+        {
+            pager.ShowPageSizeSelector(true);
+            pager.AllowedPageSizes(new[] { 5, 10, 20 });
+            pager.ShowInfo(true);
+        })
+        .Columns(columns =>
+        {
+            columns.AddFor(c => c.Id)
+                .Width("10%");
+            columns.AddFor(c => c.FullName);
+            columns.AddFor(c => c.Parent.FullName)
+                .Caption("Parent");
+            columns.AddFor(c => c.StatusName)
+                .Width("10%");
+        })
                 )
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts
+{
+    @{ await Html.RenderPartialAsync("_Notification");}
+} 
+
 <script>
+    $(document).ready(function () {        
+        var notiMessage = @Html.Raw(Json.Serialize(ViewBag.NotiMessage));
+
+        if (notiMessage != null) {
+            showNotification(notiMessage,2 * 1000);
+        }
+    });
+
     function getMenuInstance() {
         console.log("intancing menu");
         return $("#menu").dxMenu("instance");
@@ -115,7 +130,7 @@
         }
     };
 
-    function onRefreshGrid() {              
+    function onRefreshGrid() {
         var dataGrid = $("#gridClients").dxDataGrid("instance");
         dataGrid.refresh()
     };
@@ -130,7 +145,7 @@
         load: function (loadOptions) {
             var deferred = $.Deferred(),
                 args = {};
-           
+
             [
                 "skip",
                 "take",
@@ -147,11 +162,11 @@
             });
 
             //alert(JSON.stringify(args));
-           
+
             var argsData = {
                 "CondictionString": args.filter,
                 "PageArgs": {
-                    "Skip": parseInt(args.skip),                    
+                    "Skip": parseInt(args.skip),
                     "Size": parseInt(args.take)
                 }
             };
@@ -160,16 +175,16 @@
                 type: 'POST',
                 url: "https://localhost:44393/Api/ClientMantApi/GetAjax",
                 dataType: "json",
-                contentType: "application/json; charset=utf-8",           
+                contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(argsData),
-                success: function (result) {                    
-                    //deferred.resolve(result.Data);                    
+                success: function (result) {
+                    //deferred.resolve(result.Data);
                     deferred.resolve(result.Data, {
                         totalCount: result.TotalCount
                     });
                 },
                 error: function (error) {
-                   
+
                     deferred.reject("Data Loading Error");
                 },
                 timeout: 5000

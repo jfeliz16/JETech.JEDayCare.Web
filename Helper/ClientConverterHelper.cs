@@ -19,12 +19,12 @@ namespace JETech.JEDayCare.Web.Helper
             {
                 Address = model.Address,
                 CellPhone = model.CellPhone,
-                ContryId = int.TryParse(model.ContryId, out var c) ? c : default(int?),
+                StateId = int.TryParse(model.StateId, out var c) ? c : default(int?),
                 Email = model.Email,
                 FirstName = model.FirstName,
                 HomePhone = model.HomePhone,
                 LastName = model.LastName,
-                ZipCode = model.ZipCode
+                ZipCode =int.TryParse(model.ZipCode, out var z) ? z :default(int?)
             }
         };
 

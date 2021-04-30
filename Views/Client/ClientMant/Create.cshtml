@@ -61,21 +61,19 @@
                        .Items(items =>
                        {
                            items.AddSimpleFor(m => m.Address);
-                           items.AddSimpleFor(m => m.ContryId)
+                           items.AddSimpleFor(m => m.StateId)
                             .Editor(e => e
                                .SelectBox()
                                .ValueExpr("Id")
                                .DisplayExpr("Name")
                                //.DataSource(new JS("getContries(getContrieCallBack)")));
-                               .DataSource(d => d.StaticJson().Url("~/api/ClientMantApi/Contries")));
-                               //.DataSource(d => d.Mvc().LoadAction("GetContries")));
+                               .DataSource(d => d.StaticJson().Url("~/api/AdminGenApi/States")));
+                           //.DataSource(d => d.Mvc().LoadAction("GetContries")));
                            items.AddSimpleFor(m => m.City);
-                           items.AddSimpleFor(m => m.State);
-
-                           //items.AddSimpleFor(m => m.ZipCode)
-                           //.Editor(e => e
-                           // .TextBox()
-                           // .Width("30%"));
+                           items.AddSimpleFor(m => m.ZipCode)
+                            .Editor(e => e
+                                .TextBox()
+                                .Width("30%"));
                        });
                 })
                 .FormData(Model))
@@ -120,13 +118,13 @@
     .ShowPane(true)
     .Shading(true)
     .CloseOnOutsideClick(false)
-    //.OnShown("loadPanel_shown")
-    //.OnHidden("loadPanel_hidden")
     )
 
 @section Scripts
 {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");
+       await Html.RenderPartialAsync("_Notification");
+     }
 }
 
 <script>
@@ -153,9 +151,7 @@
                     if (result !== null && result.Data !== null && result.Data > 0) {
                         loadPanel.hide();
 
-                        showNotification("Operation successful", 2 * 1000);
-
-                        window.location = '@Url.Action("Index", "ClientMant")'
+                        window.location = '@Url.Action("Index", "ClientMant",new { notiMessage ="Operation succesful"})';
                     } else {
                         loadPanel.hide();
                         $("#formDev").dxForm('instance').validate();
@@ -177,7 +173,7 @@
             indexed_array[n['name']] = n['value'];
         });
         return indexed_array;
-    }    
+    }
 </script>
 
 @*

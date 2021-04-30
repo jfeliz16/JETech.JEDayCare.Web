@@ -115,11 +115,5 @@ namespace JETech.JEDayCare.Web.Api.Client.ClientMant
         {
             return Ok("My name");
         }
-
-        [HttpGet("Contries")]
-        public  IActionResult Contries()
-        {
-            return Ok(_dbContext.Contries.OrderBy(c => c.Name).AsNoTracking().ToList());
-        }
     }
 }

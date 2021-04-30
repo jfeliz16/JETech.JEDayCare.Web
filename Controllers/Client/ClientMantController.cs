@@ -30,8 +30,11 @@ namespace JETech.JEDayCare.Web.Controllers.Client
         }
 
         // GET: ClientController
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Index(string notiMessage)
         {
+            ViewBag.NotiMessage = notiMessage;
+
             return View(GetPathView("Index"));
         }
 

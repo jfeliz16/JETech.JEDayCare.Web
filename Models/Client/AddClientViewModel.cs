@@ -51,24 +51,13 @@ namespace JETech.JEDayCare.Web.Models.Client
         [DataType(DataType.PhoneNumber)]
         [Required(ErrorMessage = Global.Messages.NullFieldVal)]
         public string CellPhone { get; set; }
-
-        [Display(Name = "Contry")]
-        public string ContryId { get; set; }
-
-        [Display(Name = "Contry")]
-        [MaxLength(60, ErrorMessage = Global.Messages.MaxLengthVal)]
-        public string Contry { get; set; }
-
-        [Display(Name ="City")]
-        public int? CityId { get; set; }
-
+                
         [Display(Name = "City")]
         [MaxLength(60, ErrorMessage = Global.Messages.MaxLengthVal)]
         public string City { get; set; }
 
         [Display(Name = "State")]
-        [MaxLength(60, ErrorMessage = Global.Messages.MaxLengthVal)]
-        public string State { get; set; }
+        public string StateId { get; set; }
 
         [Display(Name = "Address")]
         [MaxLength(100, ErrorMessage = Global.Messages.MaxLengthVal)]
@@ -76,7 +65,7 @@ namespace JETech.JEDayCare.Web.Models.Client
 
         [Display(Name = "Zip Code")]
         [MaxLength(6, ErrorMessage = Global.Messages.MaxLengthVal)]
-        public int? ZipCode { get; set; }
+        public string ZipCode { get; set; }
 
         [Display(Name = "Email")]
         [MaxLength(50, ErrorMessage = Global.Messages.MaxLengthVal)]
