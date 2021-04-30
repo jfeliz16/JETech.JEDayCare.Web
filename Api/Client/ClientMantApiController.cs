@@ -83,7 +83,7 @@ namespace JETech.JEDayCare.Web.Api.Client.ClientMant
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(AddClientViewModel model)
+        public async Task<IActionResult> Create(ClientViewModel model)
         {
             try
             {

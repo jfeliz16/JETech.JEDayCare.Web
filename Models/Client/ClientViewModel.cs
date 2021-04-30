@@ -8,22 +8,29 @@ namespace JETech.JEDayCare.Web.Models.Client
 {
     public class ClientViewModel
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
-        [Display(Name = "Client Type")]
-        public int ClientType { get; set; }
-
-        [Display(Name = "Full Name")]
-        [MaxLength(120, ErrorMessage = Global.Messages.MaxLengthVal)]
+        [Display(Name = "Firts Names")]
+        [MaxLength(60, ErrorMessage = Global.Messages.MaxLengthVal)]
         [Required(ErrorMessage = Global.Messages.NullFieldVal)]
-        public string FullName { get; set; }
+        public string FirstNameChild { get; set; }
 
-        [Display(Name = "Names")]
+        [Display(Name = "Birth Date")]
+        [DataType(DataType.Date)]
+        [Required(ErrorMessage = Global.Messages.NullFieldVal)]
+        public DateTime BirthDateChild { get; set; }
+
+        [Display(Name = "Lasts Names")]
+        [MaxLength(60, ErrorMessage = Global.Messages.MaxLengthVal)]
+        [Required(ErrorMessage = Global.Messages.NullFieldVal)]
+        public string LastNameChild { get; set; }
+
+        [Display(Name = "Firts Names")]
         [MaxLength(60, ErrorMessage = Global.Messages.MaxLengthVal)]
         [Required(ErrorMessage = Global.Messages.NullFieldVal)]
         public string FirstName { get; set; }
 
-        [Display(Name = "Last Names")]
+        [Display(Name = "Lasts Names")]
         [MaxLength(60, ErrorMessage = Global.Messages.MaxLengthVal)]
         [Required(ErrorMessage = Global.Messages.NullFieldVal)]
         public string LastName { get; set; }
@@ -38,23 +45,21 @@ namespace JETech.JEDayCare.Web.Models.Client
 
         [Display(Name = "Home Phone")]
         [MaxLength(10, ErrorMessage = Global.Messages.MaxLengthVal)]
+        [DataType(DataType.PhoneNumber)]
         public string HomePhone { get; set; }
 
         [Display(Name = "Cell Phone")]
         [MaxLength(10, ErrorMessage = Global.Messages.MaxLengthVal)]
+        [DataType(DataType.PhoneNumber)]
+        [Required(ErrorMessage = Global.Messages.NullFieldVal)]
         public string CellPhone { get; set; }
-
-        [Display(Name = "Fax")]
-        [MaxLength(10, ErrorMessage = Global.Messages.MaxLengthVal)]
-        public string Fax { get; set; }
-
-        [Display(Name = "Contry")]
-        [MaxLength(60, ErrorMessage = Global.Messages.MaxLengthVal)]
-        public string Contry { get; set; }
 
         [Display(Name = "City")]
         [MaxLength(60, ErrorMessage = Global.Messages.MaxLengthVal)]
         public string City { get; set; }
+
+        [Display(Name = "State")]
+        public string StateId { get; set; }
 
         [Display(Name = "Address")]
         [MaxLength(100, ErrorMessage = Global.Messages.MaxLengthVal)]
@@ -62,15 +67,11 @@ namespace JETech.JEDayCare.Web.Models.Client
 
         [Display(Name = "Zip Code")]
         [MaxLength(6, ErrorMessage = Global.Messages.MaxLengthVal)]
-        public int? ZipCode { get; set; }
+        public string ZipCode { get; set; }
 
         [Display(Name = "Email")]
         [MaxLength(50, ErrorMessage = Global.Messages.MaxLengthVal)]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
-
-        [Display(Name = "Status")]
-        public string StatusName { get; set; }
-
-        public int StatusId { get; set; }
     }
 }

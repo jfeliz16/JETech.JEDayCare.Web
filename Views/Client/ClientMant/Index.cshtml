@@ -16,30 +16,30 @@
                     <div class="row justify-content-end">
                         <div class="header-form-item">
                             @(Html.DevExtreme().Button()
-    .Text("New")
-    .Icon("plus")
-    .Type(ButtonType.Default)
-    .OnClick(@<text>
-                                        function(){ window.location = "@Url.Action("Create", "ClientMant")"; }
-                                     </text>)
+                                .Text("New")
+                                .Icon("plus")
+                                .Type(ButtonType.Default)
+                                .OnClick(@<text>
+                                             function(){ window.location = "@Url.Action("Create", "ClientMant")"; }
+                                         </text>)
                             )
                         </div>
                         <div class="header-form-item">
                             @(Html.DevExtreme().Button()
-    .Text("Refresh")
-    .Icon("refresh")
-    .Type(ButtonType.Normal)
-    .OnClick("onRefreshGrid")
+                            .Text("Refresh")
+                            .Icon("refresh")
+                            .Type(ButtonType.Normal)
+                            .OnClick("onRefreshGrid")
                             )
                         </div>
                         <div class="header-form-item">
-                            @(Html.DevExtreme().Button()
-    .Text("Print")
-    .Icon("print")
-    .Type(ButtonType.Normal)
-    .OnClick(@<text>function(){ window.location = "@Url.Action("Create", "ClientMant")";}
-                                     </text>)
-                            )
+                            @(Html.DevExtreme().Button()                                
+                                .Text("Print")
+                                .Icon("print")
+                                .Type(ButtonType.Normal)
+                                .OnClick(@<text>function(){ window.location = "@Url.Action("Create", "ClientMant")";}
+                                                             </text>)
+                                                    )
                         </div>
                         @*<div class="header-form-item">
                                 @(Html.DevExtreme().Button()
@@ -76,6 +76,7 @@
             .ApplyFilter(GridApplyFilterMode.Auto)
             .ShowOperationChooser(false))
         .DataSource(new JS("store"))
+        .OnRowDblClick("onDblClick")
         //.DataSource(d => d.StaticJson().Url("~/api/ClientMantApi/").Key("Id"))
         .FocusedRowEnabled(true)
         .Paging(paging =>
@@ -105,10 +106,10 @@
 @section Scripts
 {
     @{ await Html.RenderPartialAsync("_Notification");}
-} 
+}
 
 <script>
-    $(document).ready(function () {        
+    $(document).ready(function () {
         var notiMessage = @Html.Raw(Json.Serialize(ViewBag.NotiMessage));
 
         if (notiMessage != null) {
@@ -135,9 +136,13 @@
         dataGrid.refresh()
     };
 
+    function onDblClick(e){
+        window.location = '@Url.Action("Details","ClientMant")' + '/' + e.data.Id;
+    };
+
     function isNotEmpty(value) {
         return value !== undefined && value !== null && value !== "";
-    }
+    };
 
     var store = new DevExpress.data.CustomStore({
         key: "Id",

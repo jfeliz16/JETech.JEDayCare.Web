@@ -5,6 +5,7 @@ namespace JETech.JEDayCare.Web.Helper
 {
     public interface IClientConverterHelper
     {
-        ClientModel ToClientModel(AddClientViewModel model);
+        ClientModel ToClientModel(ClientViewModel model);
+        ClientViewModel ToClientViewModel(ClientModel model);
     }
 }

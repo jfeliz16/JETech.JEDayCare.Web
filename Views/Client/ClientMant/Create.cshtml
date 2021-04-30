@@ -1,5 +1,5 @@
 ﻿@using JETech.JEDayCare.Web.Models.Client
-@model AddClientViewModel
+@model ClientViewModel
 
 @{ViewData["Title"] = "New Child"; }
 
@@ -10,7 +10,8 @@
     <div class="widget-container">
         <div id="div-loadPanel" class="form-container">
             <form id="clientForm" asp-action="Create" asp-controller="ClientMant" method="post">
-                @(Html.DevExtreme().Form<AddClientViewModel>()
+                @Html.HiddenFor(c=> c.Id)
+                @(Html.DevExtreme().Form<ClientViewModel>()
                 .ID("formDev")
                 .ColCount(2)
                 .MinColWidth(300)
@@ -140,6 +141,9 @@
             loadPanel.show();
 
             var dataModel = JSON.stringify(getFormData('#clientForm'));
+            var id = $("#Id").val();
+            alert(id);
+            var url;
 
             $.ajax({
                 url: "https://localhost:44393/Api/ClientMantApi",

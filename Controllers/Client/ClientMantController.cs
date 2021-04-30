@@ -12,15 +12,23 @@ using JETech.NetCoreWeb.Extensions;
 using JETech.NetCoreWeb.Exceptions;
 using JETech.JEDayCare.Core.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using JETech.JEDayCare.Core.Clients.Interfaces;
+using JETech.JEDayCare.Web.Helper;
 
 namespace JETech.JEDayCare.Web.Controllers.Client
 { 
     public class ClientMantController : Controller
     {
+        private readonly IClientService _clientService;
+        private readonly IClientConverterHelper _helper;
         private readonly JEDayCareDbContext _dbContext;
 
-        public ClientMantController(JEDayCareDbContext dbContext) 
+        public ClientMantController(IClientService clientService,
+                                    IClientConverterHelper helper,
+                                    JEDayCareDbContext dbContext) 
         {
+            _clientService = clientService;
+            _helper = helper;
             _dbContext = dbContext;
         }
 
@@ -28,8 +36,7 @@ namespace JETech.JEDayCare.Web.Controllers.Client
         {
             return "Views/Client/ClientMant/" + viewName + ".cshtml";
         }
-
-        // GET: ClientController
+        
         [HttpGet]
         public ActionResult Index(string notiMessage)
         {
@@ -40,10 +47,19 @@ namespace JETech.JEDayCare.Web.Controllers.Client
 
         public ActionResult Details(int id)
         {
-            return View();
-        }
+            try
+            {
+                var data = _clientService.GetClientById(id).Data;
+                var model = _helper.ToClientViewModel(data);
 
-        // GET: ClientController/Create
+                return View(GetPathView("Details"), model);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", JETechException.Parse(ex).AppMessage);
+                return View();
+            }
+        }
 
         [HttpGet]
         public ActionResult Create()
@@ -51,30 +67,21 @@ namespace JETech.JEDayCare.Web.Controllers.Client
             return View(GetPathView("Create"));
         }
 
-        // POST: ClientController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(AddClientViewModel model)
+        // GET: ClientController/Edit/5
+        public ActionResult Edit(int id)
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return new JsonResult(new { success = false });
-                }              
-                return RedirectToAction(GetPathView("Index"));
+                var data = _clientService.GetClientById(id).Data;
+                var model = _helper.ToClientViewModel(data);
+
+                return View(GetPathView("Create"), model);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ModelState.AddModelError("", JETechException.Parse(ex).AppMessage);
                 return View();
             }
-        }
-
-        // GET: ClientController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
         }
 
         // POST: ClientController/Edit/5
@@ -131,15 +138,8 @@ namespace JETech.JEDayCare.Web.Controllers.Client
                     }
                 }
             };
-
             return DataSourceLoader.Load(menuItems, loadOptions);
-        }
-
-        [HttpGet]
-        public IEnumerable<Contry> GetContries()
-        {
-            return _dbContext.Contries.OrderBy(c=> c.Name).AsNoTracking().ToList();
-        }
+        }    
     }
 }
 

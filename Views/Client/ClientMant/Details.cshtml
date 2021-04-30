@@ -1,0 +1,149 @@
+﻿@using JETech.JEDayCare.Web.Models.Client
+@model ClientViewModel
+
+@{ViewData["Title"] = "Child"; }
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h5 class="title-form">@(ViewData["Title"])</h5>
+        <div class="header-form">
+            <div class="row justify-content-end">
+                <div class="header-form-item">
+                    @(Html.DevExtreme().Button()
+                        .Text("Back")
+                        .Icon("back")
+                        .Type(ButtonType.Normal)
+                        .OnClick(@<text>
+                                    function(){ window.location = "@Url.Action("Index", "ClientMant")"; }
+                                </text>))
+                </div>
+                <div class="header-form-item">
+                    @(Html.DevExtreme().Button()
+                        .Text("Edit")
+                        .Icon("edit")
+                        .Type(ButtonType.Normal)
+                        .OnClick("onEdit"))
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="widget-container">
+        <div id="div-loadPanel" class="form-container">         
+            <form id="clientForm">
+                @Html.HiddenFor(c => c.Id)
+                @(Html.DevExtreme().Form<ClientViewModel>()
+                .ID("formDev")
+                .ColCount(2)
+                .MinColWidth(300)
+                .LabelLocation(FormLabelLocation.Left)
+                .ShowColonAfterLabel(true)
+                .Items(items =>
+                {
+                    items.AddGroup()
+                        .Items(items =>
+                        {
+                            items.AddSimpleFor(m => m.FirstNameChild)
+                                .Editor(e => e
+                                  .TextBox()
+                                  .ReadOnly(true));
+                            items.AddSimpleFor(m => m.BirthDateChild)
+                                .Editor(e => e
+                                    .DateBox()
+                                    .ReadOnly(true)
+                                    .Width("30%"));
+                            items.AddEmpty();
+                        });
+                    items.AddGroup()
+                        .Items(items =>
+                        {
+                            items.AddSimpleFor(m => m.LastNameChild)
+                                .Editor(e => e
+                                   .TextBox()
+                                   .ReadOnly(true));
+                        });
+                })
+                .Items(items =>
+                {
+                    items.AddGroup()
+                        .Caption("Tutor Information")
+                        .Items(items =>
+                        {
+                            items.AddSimpleFor(m => m.FirstName)
+                                .Editor(e => e
+                                    .TextBox()
+                                    .ReadOnly(true));
+                            items.AddSimpleFor(m => m.LastName)
+                                .Editor(e => e
+                                    .TextBox()
+                                    .ReadOnly(true));
+                            items.AddSimpleFor(m => m.Email)
+                                .Editor(e => e
+                                    .TextBox()
+                                    .ReadOnly(true)
+                                    .Width("50%"));
+                            items.AddSimpleFor(m => m.CellPhone)
+                            .Editor(e => e
+                                .TextBox()
+                                .ReadOnly(true)
+                                .Width("30%"));
+                            items.AddSimpleFor(m => m.HomePhone)
+                            .Editor(e => e
+                                .TextBox()
+                                .ReadOnly(true)
+                                .Width("30%"));
+                        });
+                    items.AddGroup()
+                        .Caption("Address")
+                       .Items(items =>
+                       {
+                           items.AddSimpleFor(m => m.Address)
+                              .Editor(e => e
+                                .TextBox()
+                                .ReadOnly(true));
+                           items.AddSimpleFor(m => m.StateId)
+                            .Editor(e => e
+                               .SelectBox()
+                               .ReadOnly(true)
+                               .ValueExpr("Id")
+                               .DisplayExpr("Name")
+                               .DataSource(d => d.StaticJson().Url("~/api/AdminGenApi/States")));
+                           items.AddSimpleFor(m => m.City)
+                            .Editor(e => e
+                                .TextBox()
+                                .ReadOnly(true));
+                           items.AddSimpleFor(m => m.ZipCode)
+                            .Editor(e => e
+                                .TextBox()
+                                .ReadOnly(true)
+                                .Width("30%"));
+                       });
+                })
+                .FormData(Model))
+            </form>
+        </div>
+    </div>
+</div>
+
+@(Html.DevExtreme().LoadPanel()
+    .ID("loadPanel")
+    .ShadingColor("rgba(0,0,0,0.4)")
+    .Position(p => p.Of("#div-loadPanel"))
+    .Visible(false)
+    .ShowIndicator(true)
+    .ShowPane(true)
+    .Shading(true)    
+    .CloseOnOutsideClick(false)
+    )
+
+<script>
+    function onEdit()
+    {
+        var id = $("#Id").val();
+        window.location = '@Url.Action("Edit","ClientMant")' + "/" + id;
+    }   
+</script>
+
+
+
+
+

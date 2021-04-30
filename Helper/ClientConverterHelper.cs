@@ -10,7 +10,7 @@ namespace JETech.JEDayCare.Web.Helper
 {
     public class ClientConverterHelper : IClientConverterHelper
     {
-        public ClientModel ToClientModel(AddClientViewModel model) => new ClientModel
+        public ClientModel ToClientModel(ClientViewModel model) => new ClientModel
         {
             BirthDate = model.BirthDateChild,
             FirstNameChild = model.FirstNameChild,
@@ -26,6 +26,22 @@ namespace JETech.JEDayCare.Web.Helper
                 LastName = model.LastName,
                 ZipCode =int.TryParse(model.ZipCode, out var z) ? z :default(int?)
             }
+        };
+
+        public ClientViewModel ToClientViewModel(ClientModel model) => new ClientViewModel
+        {            
+            Id = model.Id > 0 ? model.Id : default(int?),
+            BirthDateChild = DateTime.TryParse(model.BirthDate.ToString(),out var d) ? d : default,
+            FirstNameChild = model.FirstNameChild,
+            LastNameChild = model.LastNameChild,
+            Address = model.Parent.Address,
+            CellPhone = model.Parent.CellPhone,
+            StateId = model.Parent.StateId.HasValue ? model.Parent.StateId.ToString():default,
+            Email = model.Parent.Email,
+            FirstName = model.Parent.FirstName,
+            HomePhone = model.Parent.HomePhone,
+            LastName = model.Parent.LastName,
+            ZipCode = model.Parent.ZipCode.HasValue ? model.Parent.ZipCode.ToString() :default
         };
 
     }
