@@ -10,7 +10,8 @@
     <div class="widget-container">
         <div id="div-loadPanel" class="form-container">
             <form id="clientForm" asp-action="Create" asp-controller="ClientMant" method="post">
-                @Html.HiddenFor(c=> c.Id)
+                @Html.HiddenFor(c => c.Id)
+                @Html.HiddenFor(c => c.StatusId)
                 @(Html.DevExtreme().Form<ClientViewModel>()
                 .ID("formDev")
                 .ColCount(2)
@@ -68,7 +69,7 @@
                                .ValueExpr("Id")
                                .DisplayExpr("Name")
                                //.DataSource(new JS("getContries(getContrieCallBack)")));
-                               .DataSource(d => d.StaticJson().Url("~/api/AdminGenApi/States")));
+                               .DataSource(d => d.StaticJson().Url("~/api/AdminGeneralApi/States")));
                            //.DataSource(d => d.Mvc().LoadAction("GetContries")));
                            items.AddSimpleFor(m => m.City);
                            items.AddSimpleFor(m => m.ZipCode)
@@ -85,27 +86,14 @@
                             .OnClick("onClickSave")
                             .Text("Save")
                             .Icon("save"))
-                     </div>
+                    </div>
                     <div class="form-group col-lg-2 col-md-2 col-sm-12">
-                        @(Html.DevExtreme().Button()                        
+                        @(Html.DevExtreme().Button()
                             .Text("Cancel")
                             .OnClick(@<text>function () { window.location = "@Url.Action("Index", "ClientMant")"; }</text>))
                     </div>
                 </div>
-                @*<div class="row justify-content-center">
-                    <div class="form-group col-lg-2 col-md-2 col-sm-12">
-                        <input type="submit" value="Accept" class="btn btn-success" />
-                    </div>
-                </div>*@
-            </form>
-            @*<div class="row justify-content-md-center">
-                    <div class="form-group col-lg-2 col-md-2 col-sm-12">
-                        <input type="submit" value="Accept" class="btn btn-success btn-user btn-block" />
-                    </div>
-                    <div class="form-group col-lg-2 col-md-2 col-sm-12">
-                        <a asp-action="Index" class="btn btn-secondary btn-user btn-block">Cancel</a>
-                    </div>
-                </div>*@
+            </form>          
         </div>
     </div>
 </div>
@@ -140,17 +128,20 @@
             var loadPanel = getLoadPanelInstance();
             loadPanel.show();
 
-            var dataModel = JSON.stringify(getFormData('#clientForm'));
-            var id = $("#Id").val();
-            alert(id);
-            var url;
+            var formData = getFormData('#clientForm')
+            var dataModel = JSON.stringify(formData);                                    
+            var actionType = 'post';
+
+            if (!(formData['Id'] === '')) {
+                actionType = 'put';
+            }
 
             $.ajax({
-                url: "https://localhost:44393/Api/ClientMantApi",
+                url: 'https://'+'@Context.Request.Host' + '/Api/Client',
                 dataType: "json",
                 data: dataModel,
                 contentType: 'application/json',
-                type: 'post',
+                type: actionType,
                 success: function (result) {
                     if (result !== null && result.Data !== null && result.Data > 0) {
                         loadPanel.hide();

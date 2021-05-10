@@ -8,7 +8,7 @@ namespace JETech.JEDayCare.Web.Models.Client
 {
     public class ClientViewModel
     {
-        public int? Id { get; set; }
+        public string Id { get; set; }
 
         [Display(Name = "Firts Names")]
         [MaxLength(60, ErrorMessage = Global.Messages.MaxLengthVal)]
@@ -73,5 +73,7 @@ namespace JETech.JEDayCare.Web.Models.Client
         [MaxLength(50, ErrorMessage = Global.Messages.MaxLengthVal)]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+
+        public string StatusId { get; set; }
     }
 }

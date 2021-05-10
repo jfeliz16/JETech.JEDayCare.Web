@@ -40,23 +40,14 @@
                                 .OnClick(@<text>function(){ window.location = "@Url.Action("Create", "ClientMant")";}
                                                              </text>)
                                                     )
-                        </div>
-                        @*<div class="header-form-item">
-                                @(Html.DevExtreme().Button()
-                                .Icon("more")
-                                .Type(ButtonType.Normal)
-                                .OnClick(@<text>
-                                            function(){ window.location = "@Url.Action("Create", "Client")"; }
-                                         </text>)
-                                )
-                            </div>*@
+                        </div>                   
                         <div class="header-form-item">
                             @(Html.DevExtreme().Menu()
-        .ID("menu")
-        .DataSource(d => d.Mvc().LoadAction("GetActions"))
-        .HideSubmenuOnMouseLeave(false)
-        .OnItemClick("onActionClick")
-        .CssClass("jet-menu-button")
+                                .ID("menu")
+                                .DataSource(d => d.Mvc().LoadAction("GetActions"))
+                                .HideSubmenuOnMouseLeave(false)
+                                .OnItemClick("onActionClick")
+                                .CssClass("jet-menu-button")
                                 )
                             <div id="product-details" class="hidden">
                                 <div class="text"></div>
@@ -68,35 +59,35 @@
 
             <div>
                 @(Html.DevExtreme().DataGrid<ClientModel>()
-        .ID("gridClients")
-        .ShowBorders(true)
-        .RemoteOperations(c => c.GroupPaging(true)) //Enabled pagination
-        .FilterRow(filter => filter
-            .Visible(true)
-            .ApplyFilter(GridApplyFilterMode.Auto)
-            .ShowOperationChooser(false))
-        .DataSource(new JS("store"))
-        .OnRowDblClick("onDblClick")
-        //.DataSource(d => d.StaticJson().Url("~/api/ClientMantApi/").Key("Id"))
-        .FocusedRowEnabled(true)
-        .Paging(paging =>
-            paging.PageSize(10))
-        .Pager(pager =>
-        {
-            pager.ShowPageSizeSelector(true);
-            pager.AllowedPageSizes(new[] { 5, 10, 20 });
-            pager.ShowInfo(true);
-        })
-        .Columns(columns =>
-        {
-            columns.AddFor(c => c.Id)
-                .Width("10%");
-            columns.AddFor(c => c.FullName);
-            columns.AddFor(c => c.Parent.FullName)
-                .Caption("Parent");
-            columns.AddFor(c => c.StatusName)
-                .Width("10%");
-        })
+                    .ID("gridClients")
+                    .ShowBorders(true)
+                    .RemoteOperations(c => c.GroupPaging(true)) //Enabled pagination
+                    .FilterRow(filter => filter
+                        .Visible(true)
+                        .ApplyFilter(GridApplyFilterMode.Auto)
+                        .ShowOperationChooser(false))
+                    .DataSource(new JS("store"))
+                    .OnRowDblClick("onDblClick")
+                    //.DataSource(d => d.StaticJson().Url("~/api/ClientMantApi/").Key("Id"))
+                    .FocusedRowEnabled(true)
+                    .Paging(paging =>
+                        paging.PageSize(10))
+                    .Pager(pager =>
+                    {
+                        pager.ShowPageSizeSelector(true);
+                        pager.AllowedPageSizes(new[] { 5, 10, 20 });
+                        pager.ShowInfo(true);
+                    })
+                    .Columns(columns =>
+                    {
+                        columns.AddFor(c => c.Id)
+                            .Width("10%");
+                        columns.AddFor(c => c.FullName);
+                        columns.AddFor(c => c.Parent.FullName)
+                            .Caption("Parent");
+                        columns.AddFor(c => c.StatusName)
+                            .Width("10%");
+                    })
                 )
             </div>
         </div>
@@ -178,7 +169,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: "https://localhost:44393/Api/ClientMantApi/GetAjax",
+                url: "https://localhost:44393/Api/Client/GetAjax",
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(argsData),

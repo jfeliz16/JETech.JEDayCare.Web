@@ -9,15 +9,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace JETech.JEDayCare.Web.Api.Administration
+namespace JETech.JEDayCare.Web.Controllers.Api.Administration
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AdminGenApiController : ControllerBase
+    public class AdminGeneralApiController : ControllerBase
     {        
         private readonly IGeneralService _generalService;
 
-        public AdminGenApiController(IGeneralService  generalService)
+        public AdminGeneralApiController(IGeneralService  generalService)
         {
             _generalService = generalService;
         }

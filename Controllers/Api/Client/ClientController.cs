@@ -13,17 +13,17 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace JETech.JEDayCare.Web.Api.Client.ClientMant
+namespace JETech.JEDayCare.Web.Controllers.Api.Client.ClientMant
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClientMantApiController : ControllerBase
+    public class ClientController : ControllerBase
     {
         private readonly IClientService _clientService;
         private readonly IClientConverterHelper _clientConverter;
         private readonly JEDayCareDbContext _dbContext;
 
-        public ClientMantApiController(IClientService clientService,
+        public ClientController(IClientService clientService,
                                        IClientConverterHelper clientConverter,
                                        JEDayCareDbContext dbContext)
         {
@@ -102,18 +102,24 @@ namespace JETech.JEDayCare.Web.Api.Client.ClientMant
             }
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Get()
-        //{
-        //    ActionQueryArgs<ClientModel> args = new ActionQueryArgs<ClientModel>();
-
-        //    return Ok(await _clientService.GetClients(args));
-        //}
-
-        [HttpGet("GetName")]
-        public IActionResult GetName()
+        [HttpPut]
+        public async Task<IActionResult> Edit(ClientViewModel model)
         {
-            return Ok("My name");
+            try
+            {
+                var clientModel = _clientConverter.ToClientModel(model);
+                var resultClient = await _clientService.Update(new ActionArgs<ClientModel> { Data = clientModel });
+
+                var result = new JETech.NetCoreWeb.Types.ActionResult<bool>
+                {
+                    Data = resultClient.Data
+                };
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, JETechException.Parse(ex).AppMessage);
+            }
         }
     }
 }

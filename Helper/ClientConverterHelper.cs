@@ -12,9 +12,11 @@ namespace JETech.JEDayCare.Web.Helper
     {
         public ClientModel ToClientModel(ClientViewModel model) => new ClientModel
         {
+            Id = !string.IsNullOrEmpty(model.Id) ? int.Parse(model.Id) : default,
             BirthDate = model.BirthDateChild,
             FirstNameChild = model.FirstNameChild,
             LastNameChild = model.LastNameChild,
+            StatusId = !string.IsNullOrEmpty(model.StatusId) ? int.Parse(model.StatusId) : default,
             Parent = new PersonModel
             {
                 Address = model.Address,
@@ -30,7 +32,7 @@ namespace JETech.JEDayCare.Web.Helper
 
         public ClientViewModel ToClientViewModel(ClientModel model) => new ClientViewModel
         {            
-            Id = model.Id > 0 ? model.Id : default(int?),
+            Id = model.Id.ToString(),
             BirthDateChild = DateTime.TryParse(model.BirthDate.ToString(),out var d) ? d : default,
             FirstNameChild = model.FirstNameChild,
             LastNameChild = model.LastNameChild,
@@ -41,7 +43,9 @@ namespace JETech.JEDayCare.Web.Helper
             FirstName = model.Parent.FirstName,
             HomePhone = model.Parent.HomePhone,
             LastName = model.Parent.LastName,
-            ZipCode = model.Parent.ZipCode.HasValue ? model.Parent.ZipCode.ToString() :default
+            ZipCode = model.Parent.ZipCode.HasValue ? model.Parent.ZipCode.ToString() :default,
+            StatusId = model.StatusId.ToString()
+            
         };
 
     }
