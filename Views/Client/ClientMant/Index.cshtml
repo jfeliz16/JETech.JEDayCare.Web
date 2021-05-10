@@ -59,34 +59,56 @@
 
             <div>
                 @(Html.DevExtreme().DataGrid<ClientModel>()
-                    .ID("gridClients")
-                    .ShowBorders(true)
-                    .RemoteOperations(c => c.GroupPaging(true)) //Enabled pagination
-                    .FilterRow(filter => filter
-                        .Visible(true)
-                        .ApplyFilter(GridApplyFilterMode.Auto)
-                        .ShowOperationChooser(false))
-                    .DataSource(new JS("store"))
-                    .OnRowDblClick("onDblClick")
-                    //.DataSource(d => d.StaticJson().Url("~/api/ClientMantApi/").Key("Id"))
-                    .FocusedRowEnabled(true)
-                    .Paging(paging =>
-                        paging.PageSize(10))
-                    .Pager(pager =>
-                    {
-                        pager.ShowPageSizeSelector(true);
-                        pager.AllowedPageSizes(new[] { 5, 10, 20 });
-                        pager.ShowInfo(true);
-                    })
-                    .Columns(columns =>
-                    {
-                        columns.AddFor(c => c.Id)
-                            .Width("10%");
-                        columns.AddFor(c => c.FullName);
-                        columns.AddFor(c => c.Parent.FullName)
-                            .Caption("Parent");
-                        columns.AddFor(c => c.StatusName)
-                            .Width("10%");
+                .ID("gridClients")
+                .ShowBorders(true)
+                .RemoteOperations(c => c.GroupPaging(true)) //Enabled pagination
+                .FilterRow(filter => filter
+                    .Visible(true)
+                    .ApplyFilter(GridApplyFilterMode.Auto)
+                    .ShowOperationChooser(false))
+                .DataSource(new JS("store"))
+                .OnRowDblClick("onDblClick")
+                //.RowAlternationEnabled(true)
+                //.DataSource(d => d.StaticJson().Url("~/api/ClientMantApi/").Key("Id"))
+                .FocusedRowEnabled(true)
+                .Paging(paging =>
+                    paging.PageSize(10))
+                .Pager(pager =>
+                {
+                    pager.ShowPageSizeSelector(true);
+                    pager.AllowedPageSizes(new[] { 5, 10, 20 });
+                    pager.ShowInfo(true);
+                })
+                .Columns(columns =>
+                {
+                columns.AddFor(c => c.Id)
+                        .Width("10%");
+                columns.AddFor(c => c.FullName);
+                columns.AddFor(c => c.Parent.FullName)
+                        .Caption("Parent");
+                columns.AddFor(c => c.StatusName)
+                        .Width("10%");
+                columns.Add()
+                        .Caption("Actions")
+                        .Width("10%")
+                        .AllowFiltering(false)
+                        .AllowSorting(false)
+                        .CellTemplate(@<text>
+                                 @(Html.DevExtreme().Button()
+                                        .Width("30px")
+                                        .Height("30px")
+                                        .Icon("search")
+                                        .Type(ButtonType.Normal)
+                                        
+                                        //.OnClick("")
+                                        )
+                                 @(Html.DevExtreme().Button()
+                                        .Width("30px")
+                                        .Height("30px")
+                                        .Icon("edit")
+                                        .Type(ButtonType.Normal)
+                                        .OnClick("onEdit()"))
+                            </text>);
                     })
                 )
             </div>
@@ -107,6 +129,10 @@
             showNotification(notiMessage,2 * 1000);
         }
     });
+
+    function onEdit(id) {
+        //alert(id);
+    }
 
     function getMenuInstance() {
         console.log("intancing menu");
@@ -169,7 +195,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: "https://localhost:44393/Api/Client/GetAjax",
+                url: 'https://'+'@Context.Request.Host' + '/api/Client/GetAjax',
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(argsData),
