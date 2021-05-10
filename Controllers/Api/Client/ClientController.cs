@@ -121,5 +121,20 @@ namespace JETech.JEDayCare.Web.Controllers.Api.Client.ClientMant
                 return StatusCode(StatusCodes.Status500InternalServerError, JETechException.Parse(ex).AppMessage);
             }
         }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetAttendacesWeek()
+        {
+            try
+            {
+                var result = await _clientService.GetAttandecesWeek(new ActionArgs<DateTime> { Data = DateTime.Now });
+                
+                return Ok(result.Data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, JETechException.Parse(ex).AppMessage);
+            }
+        }
     }
 }

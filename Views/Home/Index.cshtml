@@ -8,29 +8,21 @@
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Attendances</h6>
-               
+
             </div>
             <!-- Card Body -->
             <div class="card-body">
                 @(Html.DevExtreme().Chart()
-                        .ID("crtAttendaceWeek")
-                        .Series(s => s
-                            .Add()
-                            .ArgumentField("Day")
-                            .ValueField("Attendaces")
-                            .Name("Week Attendaces")
-                            .Type(SeriesType.Bar)
-                            .Color("#ffaa66")
-                        )
-                        .DataSource(new[] {
-                            new { Day = "Monday", Attendaces = 3 },
-                            new { Day = "Tuesday", Attendaces = 2 },
-                            new { Day = "Wednesday", Attendaces = 3 },
-                            new { Day = "Thursday", Attendaces = 4 },
-                            new { Day = "Friday", Attendaces = 6 },
-                            new { Day = "Saturday", Attendaces = 11 }
-                        }))            
+                    .ID("crtAttendaceWeek")
+                    .Series(s => s
+                        .Add()
+                        .ArgumentField("DayOfWeek")
+                        .ValueField("Attendances")
+                        .Name("Week Attendaces")
+                        .Type(SeriesType.Bar)
+                        .Color("#ffaa66"))
+                    .DataSource(d => d.StaticJson().Url("~/api/Client/GetAttendacesWeek")))
             </div>
         </div>
-    </div>   
+    </div>
 </div>
