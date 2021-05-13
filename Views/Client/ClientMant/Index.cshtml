@@ -81,52 +81,53 @@
             })
             .Columns(columns =>
             {
-            columns.AddFor(c => c.Id)
-                    .Width("10%");
-            columns.AddFor(c => c.FullName);
-            columns.AddFor(c => c.Parent.FullName)
-                    .Caption("Parent");
-            columns.AddFor(c => c.StatusName)
-                    .Width("10%");
-            columns.Add()
-                   .Type(GridCommandColumnType.Buttons)
-                   .Width(110)
-                   .Buttons(b =>
-                   {                   
-                       b.Add()
-                        .Hint("Edit")
-                        .Icon("edit")
-                        .OnClick("onEdit");
-                       b.Add()
-                        .Hint("Detail")
-                        .Icon("card")
-                        .OnClick("onDetail");
-                   });
-            /*columns.Add()
-                    .Caption("Actions")
-                    .Width("10%")
-                    .AllowFiltering(false)
-                    .AllowSorting(false)
-                    .CellTemplate(@<text>
-                                <div>
-                                      <a href="@Url.Action("Details", "ClientMant")/<%- data.Id %>">Details</a>       
-                                      <label id="idDetail"></label>  
-                                      @(Html.DevExtreme().Button()
-                                        .OnClick("function () {window.location='" + @Url.Action("Details", "ClientMant") + "/6'}")
-                                        .Width("30px")
-                                        .Height("30px")
-                                        .Icon("search")
-                                        .Type(ButtonType.Normal)
-                                        )
-                                      @(Html.DevExtreme().Button()
-                                        .Width("30px")
-                                        .Height("30px")
-                                        .Icon("edit")
-                                        .Type(ButtonType.Normal)
-                                        .OnClick("onEdit()"))
-                                </div>
-                            </text>);*/
-                    })
+                columns.AddFor(c => c.Id)
+                        .Width("10%");
+                columns.AddFor(c => c.FullName);
+                columns.AddFor(c => c.Parent.FullName)
+                        .Caption("Parent");
+                columns.Add()
+                       .Caption("Actions")
+                       .Type(GridCommandColumnType.Buttons)
+                       .Width(110)
+                       .Buttons(b =>
+                       {
+                           b.Add()
+                            .Hint("Edit")
+                            .Icon("edit")
+                            .OnClick("onEdit");
+                           b.Add()
+                            .Hint("Detail")
+                            .Icon("card")
+                            .OnClick("onDetail");
+                       });
+                columns.AddFor(c => c.StatusName)
+                   .Width("10%");
+                /*columns.Add()
+                        .Caption("Actions")
+                        .Width("10%")
+                        .AllowFiltering(false)
+                        .AllowSorting(false)
+                        .CellTemplate(@<text>
+                                    <div>
+                                          <a href="@Url.Action("Details", "ClientMant")/<%- data.Id %>">Details</a>       
+                                          <label id="idDetail"></label>  
+                                          @(Html.DevExtreme().Button()
+                                            .OnClick("function () {window.location='" + @Url.Action("Details", "ClientMant") + "/6'}")
+                                            .Width("30px")
+                                            .Height("30px")
+                                            .Icon("search")
+                                            .Type(ButtonType.Normal)
+                                            )
+                                          @(Html.DevExtreme().Button()
+                                            .Width("30px")
+                                            .Height("30px")
+                                            .Icon("edit")
+                                            .Type(ButtonType.Normal)
+                                            .OnClick("onEdit()"))
+                                    </div>
+                                </text>);*/
+            })
                 )
             </div>
         </div>
